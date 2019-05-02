@@ -1,13 +1,17 @@
 import React from "react";
+import { JSHINT } from 'jshint'
 import { Container } from "semantic-ui-react";
 import CodeMirror from "react-codemirror";
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/jsx/jsx');
 require('codemirror/addon/edit/closebrackets');
 require('codemirror/addon/edit/closetag');
+require('codemirror/addon/hint/show-hint');
 require('codemirror/addon/hint/javascript-hint');
 require('codemirror/addon/lint/lint');
 require('codemirror/addon/lint/javascript-lint');
+
+window.JSHINT = JSHINT
 
 export default class WorkingBox extends React.Component {
 
@@ -28,7 +32,8 @@ export default class WorkingBox extends React.Component {
       mode: 'javascript',
       autoCloseBrackets: true,
       autoCloseTags: true,
-      lint: true,
+      gutters: ['CodeMirror-lint-markers'],
+      lint: { },
       theme: 'oceanic-next',
     }
 
