@@ -9,38 +9,30 @@ const sequelize = new Sequelize({
     storage: './database.sqlite'
 });
 
-//create this model
+//data type for table of this model
 const Model = Sequelize.Model;
 
-//import Script model
-const Script = require("./Script");
 
-class User extends Model {}
-User.init({
-    username: {
+class Script extends Model {}
+Script.init({
+    title: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    password: {
+    content: {
+        type: Sequelize.STRING
+    },
+    language: {
+        type: Sequelize.STRING
+    },
+    category: {
         type: Sequelize.STRING
     }
 }, {
     sequelize,
-    modelName: 'user'
+    modelName: 'script'
 })
 
-module.exports = User
+module.exports = Script
 
 sequelize.sync()
-
-//define & create join table
-UserScript = sequelize.define('user_script', {
-    role: Sequelize.STRING
-});
-
-User.belongsToMany(Script, {
-    through: UserScript
-});
-Script.belongsToMany(User, {
-    through: UserScript
-});
