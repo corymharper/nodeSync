@@ -33,8 +33,11 @@ export default class WorkingBox extends React.Component {
       autoCloseBrackets: true,
       autoCloseTags: true,
       gutters: ['CodeMirror-lint-markers'],
-      lint: { },
       theme: 'oceanic-next',
+    }
+
+    if(options.mode === "javascript"){
+      options.lint = { esversion: 9 }
     }
 
     return (
