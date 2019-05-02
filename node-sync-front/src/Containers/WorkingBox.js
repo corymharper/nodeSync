@@ -1,8 +1,37 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
+import CodeMirror from "react-codemirror";
+require('codemirror/mode/javascript/javascript');
+require('codemirror/mode/jsx/jsx');
+require('codemirror/addon/edit/closebrackets');
+require('codemirror/addon/edit/closetag');
+require('codemirror/addon/hint/javascript-hint');
+require('codemirror/addon/lint/lint');
+require('codemirror/addon/lint/javascript-lint');
 
 export default class WorkingBox extends React.Component {
+
+  state = {
+    code: ""
+  }
+
+  handleCodeChange = (newCode) => {
+    this.setState({
+      code: newCode
+    })
+  }
+
+
   render() {
+    const options = {
+      lineNumbers: true,
+      mode: 'javascript',
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      lint: true,
+      theme: 'oceanic-next',
+    }
+
     return (
       <Container
         style={{
@@ -15,22 +44,8 @@ export default class WorkingBox extends React.Component {
           color: "white"
         }}
       >
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-          commodo ligula eget dolor. Aenean massa strong. Cum sociis natoque
-          penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-          Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-          Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-          aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-          imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede link
-          mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
-          semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-          porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-          dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla
-          ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
-          ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.
-        </p>
-      </Container>
+        <CodeMirror value={this.state.code} onChange={this.handleCodeChange} options={options} />
+       </Container>
     );
   }
 }
