@@ -1,13 +1,18 @@
 import React from "react";
+import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
 import CodeMirror from "react-codemirror";
+import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/jsx/jsx");
 require("codemirror/addon/edit/closebrackets");
 require("codemirror/addon/edit/closetag");
+require("codemirror/addon/hint/show-hint");
 require("codemirror/addon/hint/javascript-hint");
 require("codemirror/addon/lint/lint");
 require("codemirror/addon/lint/javascript-lint");
+
+window.JSHINT = JSHINT;
 
 export default class WorkingBox extends React.Component {
   state = {
@@ -26,9 +31,13 @@ export default class WorkingBox extends React.Component {
       mode: "jsx",
       autoCloseBrackets: true,
       autoCloseTags: true,
-      lint: true,
+      gutters: ["CodeMirror-lint-markers"],
       theme: "oceanic-next"
     };
+
+    if (options.mode === "javascript") {
+      options.lint = { esversion: 9 };
+    }
 
     return (
       <Container
@@ -43,9 +52,9 @@ export default class WorkingBox extends React.Component {
           color: "white",
           overflowY: "auto"
         }}
+        onClick={SocketHandler.testEmit}
       >
         <CodeMirror
-          className="CodeMirror"
           value={this.state.code}
           onChange={this.handleCodeChange}
           options={options}
