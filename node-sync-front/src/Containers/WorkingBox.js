@@ -2,6 +2,7 @@ import React from "react";
 import { JSHINT } from 'jshint'
 import { Container } from "semantic-ui-react";
 import CodeMirror from "react-codemirror";
+import SocketHandler from '../SocketHandler'
 require('codemirror/mode/javascript/javascript');
 require('codemirror/mode/jsx/jsx');
 require('codemirror/addon/edit/closebrackets');
@@ -51,8 +52,9 @@ export default class WorkingBox extends React.Component {
           backgroundColor: "#262626",
           color: "white"
         }}
+        onClick={SocketHandler.testEmit}
       >
-        <CodeMirror value={this.state.code} onChange={this.handleCodeChange} options={options} />
+        <CodeMirror value={this.state.code} onChange={this.handleCodeChange}  options={options} />
        </Container>
     );
   }

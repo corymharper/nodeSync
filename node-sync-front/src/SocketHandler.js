@@ -1,14 +1,15 @@
-import React from 'react'
 import socketIO from 'socket.io-client'
 
-export default class SocketHandler extends React.Component {
+const io = socketIO('http://localhost:8080/')
+
+export default class SocketHandler {
 
 
-    componentDidMount = () => {
-        this.io = socketIO('http://localhost:8080/')
+    constructor(){
+
     }
 
-    testEmit = () => {
+    static testEmit = () => {
         io.emit('connection', () => console.log("hello world"))
     }
 
