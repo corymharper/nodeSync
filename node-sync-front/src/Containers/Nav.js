@@ -1,5 +1,5 @@
 import React from "react";
-import { Container } from "semantic-ui-react";
+import { Container, Header, Icon, List } from "semantic-ui-react";
 
 export default class Nav extends React.Component {
   render() {
@@ -9,29 +9,38 @@ export default class Nav extends React.Component {
           position: "absolute",
           left: "0px",
           top: "0px",
-          height: window.innerHeight,
-          width: "7%",
+          height: "100vh",
+          width: `${(window.innerWidth / 100) * 8}px`,
           backgroundColor: "#353535",
           //   backgroundColor: "#515151",
-          color: "white",
-          borderRight: "solid black 1px"
+          borderRight: "solid black 1px",
+          overflowY: "auto"
         }}
       >
-        <p>
-          Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-          commodo ligula eget dolor. Aenean massa strong. Cum sociis natoque
-          penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-          Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-          Nulla consequat massa quis enim. Donec pede justo, fringilla vel,
-          aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut,
-          imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede link
-          mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum
-          semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula,
-          porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante,
-          dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla
-          ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam
-          ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.
-        </p>
+        <Header style={{ marginTop: "10px" }} as="h4" icon>
+          <Icon name="code" />
+          NodeSync
+        </Header>
+
+        <div
+          className="categories"
+          style={{ textAlign: "left", marginLeft: "5px" }}
+        >
+          <h5>Categories:</h5>
+          <List bulleted>
+            <List.Item>Categories you create will go here.</List.Item>
+          </List>
+        </div>
+
+        <div
+          className="collaborators"
+          style={{ textAlign: "left", marginLeft: "5px" }}
+        >
+          <h5>Collaborators:</h5>
+          <List bulleted>
+            <List.Item>Categories you create will go here.</List.Item>
+          </List>
+        </div>
       </Container>
     );
   }

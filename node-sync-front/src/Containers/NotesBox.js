@@ -9,13 +9,13 @@ export default class NotesBox extends React.Component {
       <Container
         style={{
           position: "absolute",
-          left: "7%",
+          left: `${(window.innerWidth / 100) * 8}px`,
           top: "0px",
-          height: window.innerHeight,
-          width: "11%",
+          height: "100vh",
+          width: `${(window.innerWidth / 100) * 11}px`,
           backgroundColor: "#262626",
-          color: "white",
-          borderRight: "solid black 1px"
+          borderRight: "solid black 1px",
+          overflowY: "auto"
         }}
       >
         {this.props.notes.map(note => {
