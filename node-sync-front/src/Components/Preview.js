@@ -1,25 +1,42 @@
 import React from "react";
-import { Container, Segment } from "semantic-ui-react";
+import { Container, Segment, Label, Image, Icon } from "semantic-ui-react";
 
 export default class Preview extends React.Component {
   render() {
     return (
-      <Segment
-        vertical
+      <div
         style={{
-          //   position: "absolute",
-          //   left: "20%",
-          //   top: "0px",
-          //   width: "80%",
-          //   height: window.innerHeight,
-          //   backgroundColor: "#262626",
-          //   color: "white"
-          height: "10%",
-          borderBottom: "solid black 1px"
+          height: "10%"
         }}
       >
-        <p>Note Preview</p>
-      </Segment>
+        <Segment
+          vertical
+          style={{
+            position: "absolute",
+            left: "0px",
+            width: "30%",
+            textAlign: "center",
+            wordWrap: "normal"
+          }}
+        >
+          <Label style={{ width: "60%", padding: "0px" }}>CH</Label>
+          <Label style={{ width: "60%", padding: "0px" }}>JC</Label>
+        </Segment>
+        <Segment
+          vertical
+          style={{
+            position: "absolute",
+            left: "30%",
+            borderBottom: "solid black 1px",
+            width: "70%",
+            textAlign: "left",
+            wordWrap: "normal"
+          }}
+        >
+          <h4 style={{ color: "white" }}>Script Preview</h4>
+          <p>this is a preview of the script</p>
+        </Segment>
+      </div>
     );
   }
 }
