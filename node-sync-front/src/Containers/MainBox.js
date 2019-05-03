@@ -5,31 +5,32 @@ import WorkingBox from "./WorkingBox";
 
 export default class MainBox extends React.Component {
   state = {
-    notes: [
-      { title: "Note 1", content: "This is Note 1's content" },
-      { title: "Note 2", content: "This is Note 2's content" },
-      { title: "Note 3", content: "This is Note 3's content" },
-      { title: "Note 4", content: "This is Note 4's content" },
-      { title: "Note 5", content: "This is Note 5's content" },
-      { title: "Note 1", content: "This is Note 1's content" },
-      { title: "Note 2", content: "This is Note 2's content" },
-      { title: "Note 3", content: "This is Note 3's content" },
-      { title: "Note 4", content: "This is Note 4's content" },
-      { title: "Note 5", content: "This is Note 5's content" },
-      { title: "Note 1", content: "This is Note 1's content" },
-      { title: "Note 2", content: "This is Note 2's content" },
-      { title: "Note 3", content: "This is Note 3's content" },
-      { title: "Note 4", content: "This is Note 4's content" },
-      { title: "Note 5", content: "This is Note 5's content" }
-    ]
+    scripts: [],
+    users: []
   };
+
+  componentDidMount() {
+    fetch("http://localhost:3001/scripts")
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        this.setState({ scripts: data });
+      });
+
+    fetch("http://localhost:3001/scripts")
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+        this.setState({ users: data });
+      });
+  }
 
   render() {
     return (
       <div className="mainContainer" style={{ color: "#898989" }}>
         <Nav />
-        <NotesBox notes={this.state.notes} />
-        <WorkingBox />
+        <NotesBox scripts={this.state.scripts} users={this.state.users} />
+        <WorkingBox scripts={this.state.scripts} users={this.state.users} />
       </div>
     );
   }
