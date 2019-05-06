@@ -32,7 +32,8 @@ export default class Nav extends React.Component {
             position: "relative",
             top: "0px",
             height: "50px",
-            borderBottom: "1px solid black"
+            borderBottom: "1px solid black",
+            color: "#586e77"
           }}
         >
           <Icon

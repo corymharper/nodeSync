@@ -46,7 +46,8 @@ export default class ScriptMenu extends Component {
                         width: "50%",
                         padding: "0px",
                         margin: "0px",
-                        border: "solid 1px black"
+                        color: "#262626"
+                        // border: "solid 1px rgba(255, 255, 255, 0.08)"
                       }}
                     >
                       CH
@@ -60,13 +61,14 @@ export default class ScriptMenu extends Component {
                         width: "50%",
                         padding: "0px",
                         margin: "0px",
-                        border: "solid 1px black"
+                        color: "#262626"
+                        // border: "solid 1px rgba(255, 255, 255, 0.08)"
                       }}
                     >
                       +2
                     </Label>
                   </ListItem>
-                  <ListItem>
+                  <ListItem style={{ color: "#898989" }}>
                     <h5>7d</h5>
                   </ListItem>
                 </List>
@@ -83,7 +85,10 @@ export default class ScriptMenu extends Component {
               >
                 <Header
                   as="h4"
-                  style={{ color: "#586e77", marginBottom: "7px" }}
+                  style={{
+                    color: "rgba(255,255,255,.85)",
+                    marginBottom: "7px"
+                  }}
                 >
                   {script.title}
                 </Header>
