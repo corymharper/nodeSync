@@ -7,7 +7,7 @@ import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
 
 export default class App extends React.Component {
-  state = { mainbox: false, signup: false };
+  state = { mainbox: true, signup: false };
 
   renderSignUp = () => {
     this.setState({ signup: true });
