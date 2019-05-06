@@ -31,7 +31,6 @@ export default class SignUpForm extends React.Component {
   handleSubmit = event => {
     console.log(this.state);
     event.preventDefault();
-    let inputs = event.target.querySelectorAll("input");
     let username = event.target.querySelector("#username");
     let firstName = event.target.querySelector("#firstName");
     let lastName = event.target.querySelector("#lastName");
@@ -117,6 +116,8 @@ export default class SignUpForm extends React.Component {
             }
           }
         });
+
+        this.props.renderMainBox();
       });
 
   };
@@ -145,19 +146,45 @@ export default class SignUpForm extends React.Component {
           <Container
             style={{
               position: "absolute",
+              marginLeft: "0px",
+              marginRight: "0px",
               right: "50%",
               padding: "15px",
               width: "50%",
-              top: "25%"
+              height: "100%",
+              textAlign: "center"
             }}
           >
-            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
-              <Icon name="sync alternate" />
-              NodeSync
-              <Header.Subheader style={{ color: "#8c8c8c" }}>
-                Collaborative text editing
-              </Header.Subheader>
-            </Header>
+            <Message
+              style={{
+                backgroundColor: "#0c0c0c",
+                height: "100%"
+              }}
+            >
+              <Header
+                as="div"
+                style={{
+                  fontSize: "30px",
+                  color: "#586e77",
+                  position: "absolute",
+                  height: "173px",
+                  width: "136.34px",
+                  left: "50%",
+                  marginLeft: "-68.17px",
+                  top: "50%",
+                  marginTop: "-86.5px"
+                }}
+                icon
+              >
+                <Icon name="sync alternate" />
+                NodeSync
+                <Header.Subheader
+                  style={{ color: "#8c8c8c", fontSize: "14px" }}
+                >
+                  Collaborative text editing
+                </Header.Subheader>
+              </Header>
+            </Message>
           </Container>
           <Container
             style={{
