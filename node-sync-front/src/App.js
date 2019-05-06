@@ -1,10 +1,10 @@
 import React from "react";
-import Cover from "./Cover";
 import MainBox from "./Containers/MainBox";
 import "./App.css";
 import { userInfo } from "os";
 import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
+import { ifError } from "assert";
 
 export default class App extends React.Component {
   state = { mainbox: false, signup: false };

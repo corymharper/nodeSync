@@ -17,7 +17,7 @@ export default class MainBox extends React.Component {
         this.setState({ scripts: data });
       });
 
-    fetch("http://localhost:3001/scripts")
+    fetch("http://localhost:3001/users")
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
