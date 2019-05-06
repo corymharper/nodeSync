@@ -36,6 +36,14 @@ class User extends Model {
 }
 //user model's schema
 User.init({
+    firstName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    lastName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     username: {
         type: Sequelize.STRING,
         allowNull: false

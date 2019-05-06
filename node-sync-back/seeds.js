@@ -11,14 +11,20 @@ UserScript.sync();
 
 const users = [
   {
+    firstName: "Cory",
+    lastName: "Harper",
     username: "Cory",
     password: "password"
   },
   {
+    firstName: "Jing",
+    lastName: "Chen",
     username: "Jing",
     password: "password"
   },
   {
+    firstName: "Eli",
+    lastName: "Lauffenburger",
     username: "Eli",
     password: "password"
   }

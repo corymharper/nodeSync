@@ -95,19 +95,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-//http method for login page
-app.post("/login", async (req, res) => {
-  let users = await User.findAll({
-    where: {
-      name: req.body.name
-    }
-  });
-  let user = users[0];
-  if (user.authenticate(req.body.password)) {
-    res.json(user);
-  }
-});
-
 //http methods for user model, API
 app.get('/users', (req, res) => {
     User.findAll()
@@ -134,7 +121,6 @@ app.delete('/users/:id', async (req, res) => {
     user.destroy(req.body)
     console.log("This user is deleted")
 })
-
 
 //http methods for script model, API
 app.get("/scripts", (req, res) => {
@@ -173,13 +159,29 @@ app.get("/userScripts", (req, res) => {
   });
 });
 
-//post method for Sign Up Form,
+//post method for Login and Sign Up Form,
+
+//http method for login page
+app.post("/LogInForm", async (req, res) => {
+    let users = await User.findAll({
+        where: {
+            username: req.body.usname
+        }
+    });
+    let user = users[0];
+    if (user.authenticate(req.body.password)) {
+        res.json(user);
+    }
+});
+
 app.post('/SignUpForm', (req, res) => {
     //create new user
     let newUser = User.build()
-    //set up password
+    //set up properties
+    newUser.firstName = req.body.firstName
+    newUser.lastName = req.body.lastName
     newUser.password = req.body.password
-    //save newUser info to database
+    //save newUser to database
     newUser.save()
     .then(newUser => 
         console.log(newUser)

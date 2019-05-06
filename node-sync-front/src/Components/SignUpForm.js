@@ -1,15 +1,27 @@
 import React from "react";
 import socketIO from "socket.io-client";
-import {
-  Button,
-  Form,
-  Message,
-  Container,
-  Header,
-  Icon
-} from "semantic-ui-react";
+import { Button, Checkbox, Form } from "semantic-ui-react";
 
 export default class SignUpForm extends React.Component {
+  state = {
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: ""
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    //call fetchData here?
+    // this.fetchData(event)
+  }
+
   fetchData = e => {
     fetch("http://localhost:3001/users", {
       method: "POST",
@@ -17,8 +29,10 @@ export default class SignUpForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name: e.target[0].value, //replace this by event target value
-        password: e.target[1].value //replace this by event target value
+        firstName: e.target[0].value,
+        lastName: e.target[1].value,
+        userName: e.target[2].value, 
+        password: e.target[3].value 
       })
     })
       .then(res => res.json())
@@ -39,91 +53,64 @@ export default class SignUpForm extends React.Component {
 
   render() {
     return (
-      <div
-        style={{
-          height: "100vh",
-          width: "100vw",
-          backgroundColor: "#262626"
-        }}
-      >
-        <div
-          style={{
-            position: "relative",
-            top: "30%",
-            left: "30%",
-            height: "40%",
-            width: "40%",
-            border: "solid 1px black",
-            backgroundColor: "#151515",
-            borderRadius: "5px"
-          }}
-        >
-          <Container
-            style={{
-              position: "absolute",
-              right: "50%",
-              top: "0%",
-              padding: "15px",
-              width: "50%",
-              top: "25%"
-            }}
-          >
-            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
-              <Icon name="sync alternate" />
-              NodeSync
-              <Header.Subheader style={{ color: "#8c8c8c" }}>
-                Collaborative text editing
-              </Header.Subheader>
-            </Header>
-          </Container>
-          <Container
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "0%",
-              bottom: "0%",
-              padding: "15px",
-              width: "50%",
-              textAlign: "left"
-            }}
-          >
-            <Message
-              style={{
-                backgroundColor: "#8c8c8c",
-                height: "100%",
-                overflowY: "auto"
-              }}
-            >
-              <Form size={"tiny"} key={"tiny"}>
-                <Form.Field>
-                  <label>Username</label>
-                  <input placeholder="Username" name="userName" />
-                </Form.Field>
-                <Form.Field>
-                  <label>First Name</label>
-                  <input placeholder="First Name" name="firstName" />
-                </Form.Field>
-                <Form.Field>
-                  <label>Last Name</label>
-                  <input placeholder="Last Name" name="userName" />
-                </Form.Field>
-                <Form.Field>
-                  <label>Password</label>
-                  <input placeholder="Password" name="password" />
-                </Form.Field>
-                <Form.Field>
-                  <label>Confirm Password</label>
-                  <input
-                    placeholder="Confirm Password"
-                    name="confirmPassword"
-                  />
-                </Form.Field>
-                <Button type="submit">Register</Button>
-              </Form>
-            </Message>
-          </Container>
-        </div>
-      </div>
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Field>
+          <label>First Name</label>
+          < input placeholder = "First Name"
+          name = "firstName"
+          type = "text"
+          value = {
+            this.state.firstName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Last Name</label>
+          < input placeholder = "Last Name"
+          name = "lastName"
+          type = "text"
+          value = {
+            this.state.lastName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Username</label>
+          < input placeholder = "User Name"
+          name = "userName"
+          type = "text"
+          value = {
+            this.state.userName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          < input placeholder = "Password"
+          name = "password"
+          type = "text"
+          value = {
+            this.state.password
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <Checkbox label="I agree to the Terms and Conditions" />
+        </Form.Field>
+        <Button type="submit">Submit</Button>
+      </Form>
     );
   }
 }
