@@ -30,7 +30,6 @@ export default class SignUpForm extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    let inputs = event.target.querySelectorAll("input");
     let username = event.target.querySelector("#username");
     let firstName = event.target.querySelector("#firstName");
     let lastName = event.target.querySelector("#lastName");
