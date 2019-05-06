@@ -31,7 +31,6 @@ export default class SignUpForm extends React.Component {
   handleSubmit = event => {
     console.log(this.state);
     event.preventDefault();
-    let inputs = event.target.querySelectorAll("input");
     let username = event.target.querySelector("#username");
     let firstName = event.target.querySelector("#firstName");
     let lastName = event.target.querySelector("#lastName");
@@ -78,7 +77,7 @@ export default class SignUpForm extends React.Component {
     ) {
       return;
     } else {
-      //call fetchData here?
+      //call fetchData here
       this.fetchData();
     }
   };
@@ -102,6 +101,9 @@ export default class SignUpForm extends React.Component {
       .then(res => res.json())
       .then(user => {
         console.log(user);
+        localStorage.setItem('token', user.token)
+        localStorage.setItem('username', user.username)
+        console.log(localStorage)
         //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
@@ -114,7 +116,10 @@ export default class SignUpForm extends React.Component {
             }
           }
         });
+
+        this.props.renderMainBox();
       });
+
   };
 
   render() {
@@ -141,19 +146,45 @@ export default class SignUpForm extends React.Component {
           <Container
             style={{
               position: "absolute",
+              marginLeft: "0px",
+              marginRight: "0px",
               right: "50%",
               padding: "15px",
               width: "50%",
-              top: "25%"
+              height: "100%",
+              textAlign: "center"
             }}
           >
-            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
-              <Icon name="sync alternate" />
-              NodeSync
-              <Header.Subheader style={{ color: "#8c8c8c" }}>
-                Collaborative text editing
-              </Header.Subheader>
-            </Header>
+            <Message
+              style={{
+                backgroundColor: "#0c0c0c",
+                height: "100%"
+              }}
+            >
+              <Header
+                as="div"
+                style={{
+                  fontSize: "30px",
+                  color: "#586e77",
+                  position: "absolute",
+                  height: "173px",
+                  width: "136.34px",
+                  left: "50%",
+                  marginLeft: "-68.17px",
+                  top: "50%",
+                  marginTop: "-86.5px"
+                }}
+                icon
+              >
+                <Icon name="sync alternate" />
+                NodeSync
+                <Header.Subheader
+                  style={{ color: "#8c8c8c", fontSize: "14px" }}
+                >
+                  Collaborative text editing
+                </Header.Subheader>
+              </Header>
+            </Message>
           </Container>
           <Container
             style={{
@@ -227,7 +258,9 @@ export default class SignUpForm extends React.Component {
                     id="confirmPassword"
                   />
                 </Form.Field>
-                <Button type="submit">Register</Button>
+                <Button type="submit">
+                  Register <Icon name="right chevron" />
+                </Button>
               </Form>
             </Message>
           </Container>

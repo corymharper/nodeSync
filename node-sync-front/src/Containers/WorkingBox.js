@@ -50,7 +50,7 @@ export default class WorkingBox extends React.Component {
           position: "absolute",
           left: `${(window.innerWidth / 100) * 19}px`,
           top: "0px",
-          width: "82%",
+          width: "100vw",
           height: "100vh",
           backgroundColor: "#262626",
           color: "white",

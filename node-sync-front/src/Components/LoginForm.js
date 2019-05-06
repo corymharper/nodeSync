@@ -51,7 +51,7 @@ export default class LoginForm extends React.Component {
   };
 
   fetchData = () => {
-    fetch("http://localhost:3001/users", {
+    fetch("http://localhost:3001/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -103,19 +103,45 @@ export default class LoginForm extends React.Component {
           <Container
             style={{
               position: "absolute",
+              marginLeft: "0px",
+              marginRight: "0px",
               right: "50%",
               padding: "15px",
               width: "50%",
-              top: "25%"
+              height: "100%",
+              textAlign: "center"
             }}
           >
-            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
-              <Icon name="sync alternate" />
-              NodeSync
-              <Header.Subheader style={{ color: "#8c8c8c" }}>
-                Collaborative text editing
-              </Header.Subheader>
-            </Header>
+            <Message
+              style={{
+                backgroundColor: "#0c0c0c",
+                height: "100%"
+              }}
+            >
+              <Header
+                as="div"
+                style={{
+                  fontSize: "30px",
+                  color: "#586e77",
+                  position: "absolute",
+                  height: "173px",
+                  width: "136.34px",
+                  left: "50%",
+                  marginLeft: "-68.17px",
+                  top: "50%",
+                  marginTop: "-86.5px"
+                }}
+                icon
+              >
+                <Icon name="sync alternate" />
+                NodeSync
+                <Header.Subheader
+                  style={{ color: "#8c8c8c", fontSize: "14px" }}
+                >
+                  Collaborative text editing
+                </Header.Subheader>
+              </Header>
+            </Message>
           </Container>
           <Container
             style={{
@@ -156,17 +182,23 @@ export default class LoginForm extends React.Component {
                     id="password"
                   />
                 </Form.Field>
-                <Button type="submit">Log In</Button>
+                <Button type="submit">
+                  Log In <Icon name="right chevron" />
+                </Button>
               </Form>
             </Message>
             <Message
               style={{
-                backgroundColor: "#8c8c8c"
+                position: "relative",
+                backgroundColor: "#8c8c8c",
+                bottom: "0%"
               }}
             >
               <Message.Header>Not a registered user?</Message.Header>
               <p>Click this button to sign up.</p>
-              <Button onClick={this.handleClick}>Sign Up</Button>
+              <Button onClick={this.handleClick}>
+                Sign Up <Icon name="right chevron" />
+              </Button>
             </Message>
           </Container>
         </div>
