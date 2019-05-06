@@ -11,17 +11,45 @@ const sequelize = new Sequelize({
 
 //create this model
 const Model = Sequelize.Model;
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
+class User extends Model {
 
-//import Script model
-const Script = require("./Script");
-
-class User extends Model {}
+    authenticate(rawPassword){
+        return bcrypt.compareSync(rawPassword, this.password_digest)
+    }
+    //set encrypted password
+	set password(value) {
+	    let salt = bcrypt.genSaltSync(10)
+	    let hash = bcrypt.hashSync(value, salt);
+        this.password_digest = hash
+        console.log(hash)
+    }
+    //get method for jwt token
+	get token(){
+		return jwt.sign({id: this.id}, 'constant_comment')
+    }
+    toJSON(){
+        let jsonObject = {...this.dataValues, token: this.token}
+        delete jsonObject.password_digest
+        return jsonObject
+    }
+}
+//user model's schema
 User.init({
+    firstName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    lastName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     username: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    password: {
+    password_digest: {
         type: Sequelize.STRING
     }
 }, {
@@ -33,14 +61,3 @@ module.exports = User
 
 sequelize.sync()
 
-//define & create join table
-UserScript = sequelize.define('user_script', {
-    role: Sequelize.STRING
-});
-
-User.belongsToMany(Script, {
-    through: UserScript
-});
-Script.belongsToMany(User, {
-    through: UserScript
-});

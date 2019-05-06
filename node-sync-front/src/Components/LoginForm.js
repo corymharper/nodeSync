@@ -1,0 +1,176 @@
+import React from "react";
+import socketIO from "socket.io-client";
+import {
+  Button,
+  Form,
+  Message,
+  Container,
+  Header,
+  Icon
+} from "semantic-ui-react";
+
+export default class LoginForm extends React.Component {
+  state = {
+    username: "",
+    password: "",
+    usernameError: "",
+    passwordError: ""
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleClick = () => {
+    console.log("click");
+    this.props.renderSignUp();
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    let username = event.target.querySelector("#username");
+    let password = event.target.querySelector("#password");
+    if (username.value === "") {
+      this.setState({ usernameError: "error field" });
+    } else {
+      this.setState({ usernameError: "" });
+    }
+    if (password.value === "") {
+      this.setState({ passwordError: "error field" });
+    } else {
+      this.setState({ passwordError: "" });
+    }
+    if (username.value === "" || password.value === "") {
+      return;
+    } else {
+      //call fetchData here?
+      this.fetchData();
+    }
+  };
+
+  fetchData = () => {
+    fetch("http://localhost:3001/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: this.state.username, //replace this by event target value
+        password: this.state.password //replace this by event target value
+      })
+    })
+      .then(res => res.json())
+      .then(user => {
+        console.log(user);
+        const io = socketIO("http://localhost:8080/", {
+          transportOptions: {
+            pooling: {
+              //send extra headers to socket-io
+              extraHeaders: {
+                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+                Authorization: `Bearer ${user.token}`
+              }
+            }
+          }
+        });
+        this.props.renderMainBox();
+      });
+  };
+
+  render() {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          width: "100vw",
+          backgroundColor: "#262626"
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            top: "30%",
+            left: "30%",
+            height: "40%",
+            width: "40%",
+            border: "solid 1px black",
+            backgroundColor: "#151515",
+            borderRadius: "5px"
+          }}
+        >
+          <Container
+            style={{
+              position: "absolute",
+              right: "50%",
+              padding: "15px",
+              width: "50%",
+              top: "25%"
+            }}
+          >
+            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
+              <Icon name="sync alternate" />
+              NodeSync
+              <Header.Subheader style={{ color: "#8c8c8c" }}>
+                Collaborative text editing
+              </Header.Subheader>
+            </Header>
+          </Container>
+          <Container
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "0%",
+              padding: "15px",
+              height: "100%",
+              width: "50%",
+              overflow: "auto",
+              textAlign: "left"
+            }}
+          >
+            <Message
+              style={{
+                backgroundColor: "#8c8c8c"
+              }}
+            >
+              <Form size={"tiny"} key={"tiny"} onSubmit={this.handleSubmit}>
+                <Form.Field>
+                  <Form.Input
+                    label="Username"
+                    placeholder="Username"
+                    name="username"
+                    onChange={this.handleChange}
+                    id="username"
+                    className={this.state.usernameError}
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.Input
+                    label="Password"
+                    placeholder="Password"
+                    name="password"
+                    type="password"
+                    onChange={this.handleChange}
+                    className={this.state.passwordError}
+                    id="password"
+                  />
+                </Form.Field>
+                <Button type="submit">Log In</Button>
+              </Form>
+            </Message>
+            <Message
+              style={{
+                backgroundColor: "#8c8c8c"
+              }}
+            >
+              <Message.Header>Not a registered user?</Message.Header>
+              <p>Click this button to sign up.</p>
+              <Button onClick={this.handleClick}>Sign Up</Button>
+            </Message>
+          </Container>
+        </div>
+      </div>
+    );
+  }
+}

@@ -9,9 +9,11 @@
   "author": "Eli, Cory, Jing",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "ot": "0.0.15",
     "pryjs": "^1.0.3",
     "sequelize": "^5.8.2",
