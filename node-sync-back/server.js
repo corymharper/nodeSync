@@ -1,11 +1,11 @@
 // npm packages across socket and express
-const pry = require('pryjs');
-const jwt = require('jsonwebtoken')
-const socketIo = require('socket.io')
+const pry = require("pryjs");
+const jwt = require("jsonwebtoken");
+const socketIo = require("socket.io");
 //require models
-const User = require('./models/User')
-const Script = require('./models/Script')
-const UserScript = require('./models/UserScript')
+const User = require("./models/User");
+const Script = require("./models/Script");
+const UserScript = require("./models/UserScript");
 
 //SOCKET.IO
 const io = socketIo(8080, {
@@ -37,36 +37,34 @@ let attachSocketListeners = function(socket, userId){
 }
 
 //socket connections for user model
-io.on('connection', socket => {
-    socket.on('users.index', respond => {
-        User.findAll()
-            .then(users => {
-                respond(users)
-            })
-    })
-    socket.on('users.update', async params => {
-        let user = await User.findByPk(params.id)
-        await user.update(params)
-        let users = await User.findAll()
-        io.emit('users.update', users)
-    })
-})
+io.on("connection", socket => {
+  socket.on("users.index", respond => {
+    User.findAll().then(users => {
+      respond(users);
+    });
+  });
+  socket.on("users.update", async params => {
+    let user = await User.findByPk(params.id);
+    await user.update(params);
+    let users = await User.findAll();
+    io.emit("users.update", users);
+  });
+});
 
 //socket connections for script model
-io.on('connection', socket => {
-    socket.on('scripts.index', respond => {
-        User.findAll()
-            .then(scripts => {
-                respond(scripts)
-            })
-    })
-    socket.on('scripts.update', async params => {
-        let script = await Script.findByPk(params.id)
-        await script.update(params)
-        let scripts = await Script.findAll()
-        io.emit('scripts.update', scripts)
-    })
-})
+io.on("connection", socket => {
+  socket.on("scripts.index", respond => {
+    User.findAll().then(scripts => {
+      respond(scripts);
+    });
+  });
+  socket.on("scripts.update", async params => {
+    let script = await Script.findByPk(params.id);
+    await script.update(params);
+    let scripts = await Script.findAll();
+    io.emit("scripts.update", scripts);
+  });
+});
 
 //socket connections for join table
 io.on('connection', socket => {
@@ -86,29 +84,29 @@ io.on('connection', socket => {
 
 
 //EXPRESS: npm packages
-const express = require('express');
-const cors = require('cors')
-const bodyParser = require('body-parser');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
 
 //EXPRESS: create server as app
-const app = express()
+const app = express();
 
 //use middleware for express
-app.use(cors())
-app.use(bodyParser.json())
+app.use(cors());
+app.use(bodyParser.json());
 
 //http method for login page
-app.post('/login', async(req, res) => {
-    let users = await User.findAll({
-        where:{
-            name: req.body.name
-        }
-    })
-    let user = users[0]
-    if(user.authenticate(req.body.password)){
-        res.json(user)
+app.post("/login", async (req, res) => {
+  let users = await User.findAll({
+    where: {
+      name: req.body.name
     }
-})
+  });
+  let user = users[0];
+  if (user.authenticate(req.body.password)) {
+    res.json(user);
+  }
+});
 
 //http methods for user model, API
 app.get('/users', (req, res) => {
@@ -139,44 +137,41 @@ app.delete('/users/:id', async (req, res) => {
 
 
 //http methods for script model, API
-app.get('/scripts', (req, res) => {
-    Script.findAll()
-        .then(scripts => {
-            res.json(scripts)
-        })
-})
+app.get("/scripts", (req, res) => {
+  Script.findAll().then(scripts => {
+    res.json(scripts);
+  });
+});
 
-app.get('/scripts/:id', (req, res) => {
-    Script.findByPk(req.params.id)
-        .then(script => {
-            res.json(script)
-        })
-})
+app.get("/scripts/:id", (req, res) => {
+  Script.findByPk(req.params.id).then(script => {
+    res.json(script);
+  });
+});
 
-app.patch('/scripts/:id', async (req, res) => {
-    let script = await Script.findByPk(req.params.id)
-    script.update(req.body)
-})
+app.patch("/scripts/:id", async (req, res) => {
+  let script = await Script.findByPk(req.params.id);
+  script.update(req.body);
+});
 
-app.delete('/scripts/:id', async (req, res) => {
-    let script = await Script.findByPk(req.params.id)
-    console.log(script)
-    script.destroy(req.body)
-    console.log("This script is deleted")
-})
+app.delete("/scripts/:id", async (req, res) => {
+  let script = await Script.findByPk(req.params.id);
+  console.log(script);
+  script.destroy(req.body);
+  console.log("This script is deleted");
+});
 
-app.post('/scripts', (req, res) => {
-    console.log(req)
-    User.create(req.body)
-})
+app.post("/scripts", (req, res) => {
+  console.log(req);
+  User.create(req.body);
+});
 
 //http methods for userScript model, API
-app.get('/userScripts', (req, res) => {
-    UserScript.findAll()
-        .then(userScripts => {
-            res.json(userScripts)
-        })
-})
+app.get("/userScripts", (req, res) => {
+  UserScript.findAll().then(userScripts => {
+    res.json(userScripts);
+  });
+});
 
 //post method for Sign Up Form,
 app.post('/SignUpForm', (req, res) => {
@@ -192,8 +187,7 @@ app.post('/SignUpForm', (req, res) => {
     )
 })
 
-
 //port for express
-app.listen(3001)
+app.listen(3001);
 
 // eval(pry.it)
