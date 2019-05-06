@@ -118,6 +118,12 @@ export default class MenuSpace extends Component {
         >
           Log Out
         </Menu.Item>
+        <Menu.Item
+          active={activeItem === "golive"}
+          onClick={() => window.TogetherJS(window)}
+        >
+          Go Live
+        </Menu.Item>
       </Menu>
     );
   }
