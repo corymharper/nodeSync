@@ -19,7 +19,7 @@ export default class LoginForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name: e.target[0].value, //replace this by event target value
+        username: e.target[0].value, //replace this by event target value
         password: e.target[1].value //replace this by event target value
       })
     })

@@ -3,6 +3,25 @@ import socketIO from "socket.io-client";
 import { Button, Checkbox, Form } from "semantic-ui-react";
 
 export default class SignUpForm extends React.Component {
+  state = {
+    firstName: "",
+    lastName: "",
+    userName: "",
+    password: ""
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+    //call fetchData here?
+    // this.fetchData(event)
+  }
+
   fetchData = e => {
     fetch("http://localhost:3001/users", {
       method: "POST",
@@ -10,8 +29,10 @@ export default class SignUpForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name: e.target[0].value, //replace this by event target value
-        password: e.target[1].value //replace this by event target value
+        firstName: e.target[0].value,
+        lastName: e.target[1].value,
+        username: e.target[2].value, 
+        password: e.target[3].value 
       })
     })
       .then(res => res.json())
@@ -32,14 +53,58 @@ export default class SignUpForm extends React.Component {
 
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.handleSubmit}>
         <Form.Field>
           <label>First Name</label>
-          <input placeholder="First Name" />
+          < input placeholder = "First Name"
+          name = "firstName"
+          type = "text"
+          value = {
+            this.state.firstName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
         </Form.Field>
         <Form.Field>
           <label>Last Name</label>
-          <input placeholder="Last Name" />
+          < input placeholder = "Last Name"
+          name = "lastName"
+          type = "text"
+          value = {
+            this.state.lastName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Username</label>
+          < input placeholder = "username"
+          name = "username"
+          type = "text"
+          value = {
+            this.state.userName
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
+        </Form.Field>
+        <Form.Field>
+          <label>Password</label>
+          < input placeholder = "Password"
+          name = "password"
+          type = "text"
+          value = {
+            this.state.password
+          }
+          onChange = {
+            event => this.handleChange(event)
+          }
+          />
         </Form.Field>
         <Form.Field>
           <Checkbox label="I agree to the Terms and Conditions" />
