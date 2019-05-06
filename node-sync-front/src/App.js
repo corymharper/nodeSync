@@ -7,12 +7,11 @@ import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
 
 let userLoggedIn = false;
-
 function conditionalRender() {
   if (userLoggedIn) {
     return <MainBox />;
   } else {
-    return <SignUpForm />;
+    return <LoginForm />;
   }
 }
 

@@ -162,19 +162,21 @@ app.get("/userScripts", (req, res) => {
 //post method for Login and Sign Up Form,
 
 //http method for login page
-app.post("/LogInForm", async (req, res) => {
-    let users = await User.findAll({
+app.post("/login", (req, res) => {
+    User.findOne({
         where: {
             username: req.body.username
         }
-    });
-    let user = users[0];
-    if (user.authenticate(req.body.password)) {
-        res.json(user);
-    }
+    })
+    .then(user => {
+        console.log(user)
+        if (user.authenticate(req.body.password)) {
+            res.json(user);
+        }
+    })
 });
 
-app.post('/SignUpForm', (req, res) => {
+app.post('/users', (req, res) => {
     //create new user
     let newUser = User.build()
     //set up properties
