@@ -12,7 +12,7 @@ function conditionalRender() {
   if (userLoggedIn) {
     return <MainBox />;
   } else {
-    return <LoginForm />;
+    return <SignUpForm />;
   }
 }
 
