@@ -1,7 +1,15 @@
 import React from "react";
-import { Container, Button, Icon } from "semantic-ui-react";
+import {
+  Container,
+  Button,
+  Icon,
+  Modal,
+  Image,
+  Header
+} from "semantic-ui-react";
 import Preview from "../Components/Preview";
 import ScriptMenu from "../Components/ScriptMenu";
+import NewScriptForm from "../Components/NewScriptForm";
 
 export default class NotesBox extends React.Component {
   render() {
@@ -28,22 +36,39 @@ export default class NotesBox extends React.Component {
             borderBottom: "solid black 1px"
           }}
         >
-          <Button
-            style={{
-              position: "absolute",
-              top: "20%",
-              bottom: "20%",
-              right: "7px",
-              padding: "5px",
-              width: "30px",
-              height: "30px",
-              margin: "0px",
-              backgroundColor: "#898989"
-            }}
-            icon
+          <Modal
+            trigger={
+              <Button
+                style={{
+                  position: "absolute",
+                  top: "20%",
+                  bottom: "20%",
+                  right: "7px",
+                  padding: "5px",
+                  width: "30px",
+                  height: "30px",
+                  margin: "0px",
+                  backgroundColor: "#898989"
+                }}
+                icon
+              >
+                <Icon name="edit" />
+              </Button>
+            }
+            blurring
           >
-            <Icon name="edit" />
-          </Button>
+            <Modal.Header>Create a New Script</Modal.Header>
+            <Modal.Content scrolling>
+              <Modal.Description>
+                <NewScriptForm />
+              </Modal.Description>
+            </Modal.Content>
+            {/* <Modal.Actions>
+              <Button primary>
+                Proceed <Icon name="chevron right" />
+              </Button>
+            </Modal.Actions> */}
+          </Modal>
         </div>
         {/* {this.props.scripts.map(script => {
           return <Preview {...script} />;

@@ -190,17 +190,23 @@ export default class LoginForm extends React.Component {
                     id="password"
                   />
                 </Form.Field>
-                <Button type="submit">Log In</Button>
+                <Button type="submit">
+                  Log In <Icon name="right chevron" />
+                </Button>
               </Form>
             </Message>
             <Message
               style={{
-                backgroundColor: "#8c8c8c"
+                position: "relative",
+                backgroundColor: "#8c8c8c",
+                bottom: "0%"
               }}
             >
               <Message.Header>Not a registered user?</Message.Header>
               <p>Click this button to sign up.</p>
-              <Button onClick={this.handleClick}>Sign Up</Button>
+              <Button onClick={this.handleClick}>
+                Sign Up <Icon name="right chevron" />
+              </Button>
             </Message>
           </Container>
         </div>
