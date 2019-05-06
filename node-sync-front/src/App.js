@@ -3,7 +3,8 @@ import Cover from "./Cover";
 import MainBox from "./Containers/MainBox";
 import "./App.css";
 import { userInfo } from "os";
-import LoginForm from "./LoginForm.js";
+import LoginForm from "./Components/LoginForm";
+import SignUpForm from "./Components/SignUpForm";
 
 let userLoggedIn = false;
 

@@ -2,13 +2,11 @@ import React from "react";
 import socketIO from "socket.io-client";
 import {
   Button,
-  Checkbox,
   Form,
   Message,
   Container,
-  Segment,
-  Grid,
-  Divider
+  Header,
+  Icon
 } from "semantic-ui-react";
 
 export default class LoginForm extends React.Component {
@@ -64,40 +62,58 @@ export default class LoginForm extends React.Component {
             style={{
               position: "absolute",
               right: "50%",
-              bottom: "0%",
               padding: "15px",
               width: "50%",
-              textAlign: "left"
+              top: "25%"
             }}
           >
-            <Form inverted>
-              <Form.Field>
-                <label>Email</label>
-                <input placeholder="Email" />
-              </Form.Field>
-              <Form.Field>
-                <label>Password</label>
-                <input placeholder="Password" />
-              </Form.Field>
-              <Button type="submit">Log In</Button>
-            </Form>
+            <Header style={{ fontSize: "30px", color: "#586e77" }} as="h1" icon>
+              <Icon name="sync alternate" />
+              NodeSync
+              <Header.Subheader style={{ color: "#8c8c8c" }}>
+                Collaborative text editing
+              </Header.Subheader>
+            </Header>
           </Container>
-          <div
+          <Container
             style={{
               position: "absolute",
               left: "50%",
-              bottom: "0%",
+              top: "0%",
               padding: "15px",
+              height: "100%",
               width: "50%",
+              overflow: "auto",
               textAlign: "left"
             }}
           >
-            <Message>
+            <Message
+              style={{
+                backgroundColor: "#8c8c8c"
+              }}
+            >
+              <Form>
+                <Form.Field>
+                  <label>Username</label>
+                  <input placeholder="Username" />
+                </Form.Field>
+                <Form.Field>
+                  <label>Password</label>
+                  <input placeholder="Password" />
+                </Form.Field>
+                <Button type="submit">Log In</Button>
+              </Form>
+            </Message>
+            <Message
+              style={{
+                backgroundColor: "#8c8c8c"
+              }}
+            >
               <Message.Header>Not a registered user?</Message.Header>
               <p>Click this button to sign up.</p>
               <Button>Sign Up</Button>
             </Message>
-          </div>
+          </Container>
         </div>
       </div>
     );
