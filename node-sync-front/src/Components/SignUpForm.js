@@ -14,7 +14,12 @@ export default class SignUpForm extends React.Component {
     firstName: "",
     lastName: "",
     username: "",
-    password: ""
+    password: "",
+    usernameError: "",
+    firstNameError: "",
+    lastNameError: "",
+    passwordError: "",
+    confirmPasswordError: ""
   };
 
   handleChange = event => {
@@ -26,22 +31,59 @@ export default class SignUpForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     let inputs = event.target.querySelectorAll("input");
+    let username = event.target.querySelector("#username");
+    let firstName = event.target.querySelector("#firstName");
+    let lastName = event.target.querySelector("#lastName");
     let password = event.target.querySelector("#password");
     let confirmPassword = event.target.querySelector("#confirmPassword");
-    inputs.forEach(input => {
-      if (!input.value) {
-        console.log(input);
-        return;
-      }
-    });
-    if (password.value !== confirmPassword.value) {
-      return;
+    if (username.value === "") {
+      this.setState({ usernameError: "error field" });
+    } else {
+      this.setState({ usernameError: "" });
     }
-    //call fetchData here?
-    this.fetchData(event);
+    if (firstName.value === "") {
+      this.setState({ firstNameError: "error field" });
+    } else {
+      this.setState({ firstNameError: "" });
+    }
+    if (lastName.value === "") {
+      this.setState({ lastNameError: "error field" });
+    } else {
+      this.setState({ lastNameError: "" });
+    }
+    if (password.value === "") {
+      this.setState({ passwordError: "error field" });
+    } else {
+      this.setState({ passwordError: "" });
+    }
+    if (confirmPassword.value === "") {
+      this.setState({ confirmPasswordError: "error field" });
+    } else {
+      this.setState({ confirmPasswordError: "" });
+    }
+    if (confirmPassword.value !== password.value) {
+      this.setState({
+        passwordError: "error field",
+        confirmPasswordError: "error field"
+      });
+    }
+    if (
+      password.value !== confirmPassword.value ||
+      username.value === "" ||
+      firstName.value === "" ||
+      lastName.value === "" ||
+      password.value === "" ||
+      confirmPassword.value === ""
+    ) {
+      return;
+    } else {
+      //call fetchData here?
+      this.fetchData();
+    }
   };
 
-  fetchData = e => {
+  fetchData = () => {
+    console.log("function is running");
     fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
@@ -131,44 +173,54 @@ export default class SignUpForm extends React.Component {
             >
               <Form size={"tiny"} key={"tiny"} onSubmit={this.handleSubmit}>
                 <Form.Field>
-                  <label>Username</label>
-                  <input
+                  <Form.Input
+                    label="Username"
                     placeholder="Username"
                     name="username"
                     onChange={this.handleChange}
+                    id="username"
+                    className={this.state.usernameError}
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>First Name</label>
-                  <input
+                  <Form.Input
+                    label="First Name"
                     placeholder="First Name"
                     name="firstName"
+                    id="firstName"
                     onChange={this.handleChange}
+                    className={this.state.firstNameError}
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>Last Name</label>
-                  <input
+                  <Form.Input
+                    label="Last Name"
                     placeholder="Last Name"
                     name="lastName"
+                    id="lastName"
                     onChange={this.handleChange}
+                    className={this.state.lastNameError}
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>Password</label>
-                  <input
+                  <Form.Input
+                    label="Password"
                     placeholder="Password"
                     name="password"
+                    type="password"
                     onChange={this.handleChange}
+                    className={this.state.passwordError}
                     id="password"
                   />
                 </Form.Field>
                 <Form.Field>
-                  <label>Confirm Password</label>
-                  <input
+                  <Form.Input
+                    label="Confirm Password"
                     placeholder="Confirm Password"
                     name="confirmPassword"
+                    type="password"
                     onChange={this.handleChange}
+                    className={this.state.confirmPasswordError}
                     id="confirmPassword"
                   />
                 </Form.Field>

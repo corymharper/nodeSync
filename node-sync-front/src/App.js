@@ -6,18 +6,33 @@ import { userInfo } from "os";
 import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
 
-let userLoggedIn = false;
+export default class App extends React.Component {
+  state = { mainbox: false, signup: false };
 
-function conditionalRender() {
-  if (userLoggedIn) {
-    return <MainBox />;
-  } else {
-    return <SignUpForm />;
+  renderSignUp = () => {
+    this.setState({ signup: true });
+  };
+
+  renderMainBox = () => {
+    this.setState({ mainbox: true });
+  };
+
+  conditionalRender() {
+    if (this.state.mainbox) {
+      return <MainBox />;
+    } else if (this.state.signup) {
+      return <SignUpForm renderMainBox={this.renderMainBox} />;
+    } else {
+      return (
+        <LoginForm
+          renderMainBox={this.renderMainBox}
+          renderSignUp={this.renderSignUp}
+        />
+      );
+    }
+  }
+
+  render() {
+    return <div className="App">{this.conditionalRender()}</div>;
   }
 }
-
-function App() {
-  return <div className="App">{conditionalRender()}</div>;
-}
-
-export default App;

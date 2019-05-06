@@ -10,15 +10,55 @@ import {
 } from "semantic-ui-react";
 
 export default class LoginForm extends React.Component {
-  fetchData = e => {
+  state = {
+    username: "",
+    password: "",
+    usernameError: "",
+    passwordError: ""
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleClick = () => {
+    console.log("click");
+    this.props.renderSignUp();
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    let username = event.target.querySelector("#username");
+    let password = event.target.querySelector("#password");
+    if (username.value === "") {
+      this.setState({ usernameError: "error field" });
+    } else {
+      this.setState({ usernameError: "" });
+    }
+    if (password.value === "") {
+      this.setState({ passwordError: "error field" });
+    } else {
+      this.setState({ passwordError: "" });
+    }
+    if (username.value === "" || password.value === "") {
+      return;
+    } else {
+      //call fetchData here?
+      this.fetchData();
+    }
+  };
+
+  fetchData = () => {
     fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: e.target[0].value, //replace this by event target value
-        password: e.target[1].value //replace this by event target value
+        username: this.state.username, //replace this by event target value
+        password: this.state.password //replace this by event target value
       })
     })
       .then(res => res.json())
@@ -34,6 +74,7 @@ export default class LoginForm extends React.Component {
             }
           }
         });
+        this.props.renderMainBox();
       });
   };
 
@@ -92,14 +133,27 @@ export default class LoginForm extends React.Component {
                 backgroundColor: "#8c8c8c"
               }}
             >
-              <Form>
+              <Form size={"tiny"} key={"tiny"} onSubmit={this.handleSubmit}>
                 <Form.Field>
-                  <label>Username</label>
-                  <input placeholder="Username" />
+                  <Form.Input
+                    label="Username"
+                    placeholder="Username"
+                    name="username"
+                    onChange={this.handleChange}
+                    id="username"
+                    className={this.state.usernameError}
+                  />
                 </Form.Field>
                 <Form.Field>
-                  <label>Password</label>
-                  <input placeholder="Password" />
+                  <Form.Input
+                    label="Password"
+                    placeholder="Password"
+                    name="password"
+                    type="password"
+                    onChange={this.handleChange}
+                    className={this.state.passwordError}
+                    id="password"
+                  />
                 </Form.Field>
                 <Button type="submit">Log In</Button>
               </Form>
@@ -111,7 +165,7 @@ export default class LoginForm extends React.Component {
             >
               <Message.Header>Not a registered user?</Message.Header>
               <p>Click this button to sign up.</p>
-              <Button>Sign Up</Button>
+              <Button onClick={this.handleClick}>Sign Up</Button>
             </Message>
           </Container>
         </div>
