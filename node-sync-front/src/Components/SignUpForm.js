@@ -254,7 +254,9 @@ export default class SignUpForm extends React.Component {
                     id="confirmPassword"
                   />
                 </Form.Field>
-                <Button type="submit">Register</Button>
+                <Button type="submit">
+                  Register <Icon name="right chevron" />
+                </Button>
               </Form>
             </Message>
           </Container>
