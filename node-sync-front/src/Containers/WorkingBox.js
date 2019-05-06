@@ -1,7 +1,7 @@
 import React from "react";
 import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
-import CodeMirror from "react-codemirror";
+import {UnControlled as CodeMirror} from 'react-codemirror2'
 import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/jsx/jsx");
@@ -16,9 +16,9 @@ window.JSHINT = JSHINT;
 
 export default class WorkingBox extends React.Component {
   state = {
-    scripts: []
-  };
-
+    scripts: [],
+    initalValue: ""
+  }
   componentDidMount() {
     this.setState({ scripts: this.props.scripts });
   }
@@ -59,8 +59,7 @@ export default class WorkingBox extends React.Component {
         onClick={SocketHandler.testEmit}
       >
         <CodeMirror
-          value={this.state.scripts.content}
-          onChange={this.handleCodeChange}
+          value=""
           options={options}
         />
       </Container>
