@@ -1,13 +1,13 @@
 const User = require("./models/User");
 const Script = require("./models/Script");
-//TO DO:
-//1. create userscript as model
-//2. reseed data
+const UserScript = require("./models/UserScript");
 
 User.sync();
-// User.destroy()
+// User.destroy({where: {}})
 Script.sync();
-// Script.destroy()
+// Script.destroy({where: {}})
+UserScript.sync();
+// UserScript.destroy({where:{}})
 
 const users = [
   {

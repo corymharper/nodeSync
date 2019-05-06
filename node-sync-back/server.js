@@ -1,12 +1,43 @@
 // npm packages across socket and express
 const pry = require('pryjs');
-
+const jwt = require('jsonwebtoken')
+const socketIo = require('socket.io')
 //require models
 const User = require('./models/User')
 const Script = require('./models/Script')
+const UserScript = require('./models/UserScript')
 
-//SOCKET.IO: socket connections for user and script models
-const io = require('socket.io')()
+//SOCKET.IO
+const io = socketIo(8080, {
+    handlePreflightRequest: function(req, res){
+        let headers = {
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+            'Access-Control-Allow-Origin': 'http://localhost:3000',
+            'Access-Control-Allow-Credentials': true
+        };
+        res.writeHead(200, headers);
+        res.end();
+    }
+})
+
+
+//socket connections for user authentication
+io.on('connection', socket => {
+    if(socket.handshake.headers.authorization){
+        let [type, token] = socket.handshake.headers.authorization.split(' ')
+        let result = jwt.decode(token)
+        let userId = result.id
+        attachSocketListeners(socket, userId)
+    }else{
+        socket.close()
+    }
+})
+
+let attachSocketListeners = function(socket, userId){
+    socket.on(console.log('You are authorized! You are connected.'))
+}
+
+//socket connections for user model
 io.on('connection', socket => {
     socket.on('users.index', respond => {
         User.findAll()
@@ -22,6 +53,7 @@ io.on('connection', socket => {
     })
 })
 
+//socket connections for script model
 io.on('connection', socket => {
     socket.on('scripts.index', respond => {
         User.findAll()
@@ -37,9 +69,21 @@ io.on('connection', socket => {
     })
 })
 
-//SOCKET: port for socket.io
-io.listen(8080)
-
+//socket connections for join table
+io.on('connection', socket => {
+    socket.on('userScripts.index', respond => {
+        UserScript.findAll()
+            .then(userScripts => {
+                respond(userScripts)
+            })
+    })
+    socket.on('userScripts.update', async params => {
+        let userScript = await UserScript.findByPk(params.id)
+        await userScript.update(params)
+        let userScripts = await UserScript.findAll()
+        io.emit('userScripts.update', userScripts)
+    })
+})
 
 
 
@@ -54,6 +98,19 @@ const app = express()
 //use middleware for express
 app.use(cors())
 app.use(bodyParser.json())
+
+//http method for login page
+app.post('/login', async(req, res) => {
+    let users = await User.findAll({
+        where:{
+            name: req.body.name
+        }
+    })
+    let user = users[0]
+    if(user.authenticate(req.body.password)){
+        res.json(user)
+    }
+})
 
 //http methods for user model, API
 app.get('/users', (req, res) => {
@@ -70,17 +127,21 @@ app.get('/users/:id', (req, res) => {
     })
 })
 
+app.post('/users', (req, res) => {
+    console.log(req)
+    User.create(req.body)
+})
+
 app.patch('/users/:id', async(req, res) => {
     let user = await User.findByPk(req.params.id)
     user.update(req.body)
 })
 
-app.delete('/users/:id', (req, res) => {
-    User.findByPk(req.params.id)
-    .then( user => {
-        console.log("This user is deleted")
-        //TO-do: add some function here for user deleted.
-    })
+app.delete('/users/:id', async (req, res) => {
+    let user = await User.findByPk(req.params.id)
+    console.log(user)
+    user.destroy(req.body)
+    console.log("This user is deleted")
 })
 
 
@@ -104,13 +165,30 @@ app.patch('/scripts/:id', async (req, res) => {
     script.update(req.body)
 })
 
-app.delete('/scripts/:id', (req, res) => {
-    Script.findByPk(req.params.id)
-        .then(script => {
-            console.log("This script is deleted")
-            //TO-do: add some function here for script deleted.
+app.delete('/scripts/:id', async (req, res) => {
+    let script = await Script.findByPk(req.params.id)
+    console.log(script)
+    script.destroy(req.body)
+    console.log("This script is deleted")
+})
+
+app.post('/scripts', (req, res) => {
+    console.log(req)
+    User.create(req.body)
+})
+
+//http methods for userScript model, API
+app.get('/userScripts', (req, res) => {
+    UserScript.findAll()
+        .then(userScripts => {
+            res.json(userScripts)
         })
 })
 
+//TODO: http post method for login page
+
+
 //port for express
 app.listen(3001)
+
+// eval(pry.it)
