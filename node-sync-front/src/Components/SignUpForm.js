@@ -48,6 +48,7 @@ export default class SignUpForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
+        //sending this.state
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         username: this.state.username,
@@ -56,6 +57,7 @@ export default class SignUpForm extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
+        //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
             pooling: {

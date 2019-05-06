@@ -165,7 +165,7 @@ app.get("/userScripts", (req, res) => {
 app.post("/LogInForm", async (req, res) => {
     let users = await User.findAll({
         where: {
-            username: req.body.usname
+            username: req.body.username
         }
     });
     let user = users[0];
@@ -178,14 +178,15 @@ app.post('/SignUpForm', (req, res) => {
     //create new user
     let newUser = User.build()
     //set up properties
+    newUser.username = req.body.username
     newUser.firstName = req.body.firstName
     newUser.lastName = req.body.lastName
     newUser.password = req.body.password
     //save newUser to database
     newUser.save()
     .then(newUser => 
-        console.log(newUser)
-        //res.json(newUser.toJSON())
+        // console.log(newUser);
+        res.json(newUser)
     )
 })
 
