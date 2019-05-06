@@ -10,19 +10,37 @@ import {
 } from "semantic-ui-react";
 
 export default class LoginForm extends React.Component {
+
+  state = {
+    username: "",
+    password: ""
+  }
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleSubmit = event  => {
+    event.preventDefault()
+    this.fetchData(event)
+  }
+
   fetchData = e => {
-    fetch("http://localhost:3001/users", {
+    fetch("http://localhost:3001/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: e.target[0].value, //replace this by event target value
-        password: e.target[1].value //replace this by event target value
+        username: this.state.username,
+        password: this.state.password
       })
     })
       .then(res => res.json())
       .then(user => {
+        console.log(user)
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
             pooling: {
@@ -92,14 +110,14 @@ export default class LoginForm extends React.Component {
                 backgroundColor: "#8c8c8c"
               }}
             >
-              <Form>
+              <Form onSubmit={this.handleSubmit}>
                 <Form.Field>
                   <label>Username</label>
-                  <input placeholder="Username" />
+                  <input placeholder="Username" name ="username" onChange={this.handleChange}/>
                 </Form.Field>
                 <Form.Field>
                   <label>Password</label>
-                  <input placeholder="Password" />
+                  <input placeholder="Password" name = "password" onChange={this.handleChange}/>
                 </Form.Field>
                 <Button type="submit">Log In</Button>
               </Form>
