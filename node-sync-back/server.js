@@ -20,7 +20,6 @@ const io = socketIo(8080, {
     }
 })
 
-
 //socket connections for user authentication
 io.on('connection', socket => {
     if(socket.handshake.headers.authorization){
@@ -29,7 +28,7 @@ io.on('connection', socket => {
         let userId = result.id
         attachSocketListeners(socket, userId)
     }else{
-        socket.close()
+        socket.disconnect(true)
     }
 })
 
@@ -86,7 +85,6 @@ io.on('connection', socket => {
 })
 
 
-
 //EXPRESS: npm packages
 const express = require('express');
 const cors = require('cors')
@@ -125,11 +123,6 @@ app.get('/users/:id', (req, res) => {
     .then( user => {
         res.json(user)
     })
-})
-
-app.post('/users', (req, res) => {
-    console.log(req)
-    User.create(req.body)
 })
 
 app.patch('/users/:id', async(req, res) => {
@@ -185,7 +178,19 @@ app.get('/userScripts', (req, res) => {
         })
 })
 
-//TODO: http post method for login page
+//post method for Sign Up Form,
+app.post('/SignUpForm', (req, res) => {
+    //create new user
+    let newUser = User.build()
+    //set up password
+    newUser.password = req.body.password
+    //save newUser info to database
+    newUser.save()
+    .then(newUser => 
+        console.log(newUser)
+        //res.json(newUser.toJSON())
+    )
+})
 
 
 //port for express
