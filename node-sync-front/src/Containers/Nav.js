@@ -1,5 +1,15 @@
 import React from "react";
-import { Container, Header, Icon, List } from "semantic-ui-react";
+import {
+  Container,
+  Header,
+  Icon,
+  List,
+  Button,
+  Segment,
+  Menu,
+  Dropdown
+} from "semantic-ui-react";
+import MenuSpace from "../Components/MenuSpace";
 
 export default class Nav extends React.Component {
   render() {
@@ -17,30 +27,51 @@ export default class Nav extends React.Component {
           overflowY: "auto"
         }}
       >
-        <Header style={{ marginTop: "10px" }} as="h4" icon>
-          <Icon name="code" />
-          NodeSync
-        </Header>
-
         <div
-          className="categories"
-          style={{ textAlign: "left", marginLeft: "5px" }}
+          style={{
+            position: "relative",
+            top: "0px",
+            height: "50px",
+            borderBottom: "1px solid black"
+          }}
         >
-          <h5>Categories:</h5>
-          <List bulleted>
-            <List.Item>Categories you create will go here.</List.Item>
-          </List>
+          <Icon
+            name="sync alternate"
+            style={{
+              position: "absolute",
+              right: "70%",
+              top: "30%",
+              fontSize: "20px"
+            }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              left: "30%",
+              top: "40%",
+              fontSize: "16px"
+            }}
+          >
+            NodeSync
+          </div>
+          {/* <Button
+            style={{
+              position: "absolute",
+              top: "20%",
+              bottom: "20%",
+              right: "7px",
+              padding: "5px",
+              width: "30px",
+              height: "30px",
+              margin: "0px",
+              backgroundColor: "#898989"
+            }}
+            icon
+          >
+            <Icon name="setting" />
+          </Button> */}
         </div>
-
-        <div
-          className="collaborators"
-          style={{ textAlign: "left", marginLeft: "5px" }}
-        >
-          <h5>Collaborators:</h5>
-          <List bulleted>
-            <List.Item>Categories you create will go here.</List.Item>
-          </List>
-        </div>
+        <MenuSpace />
       </Container>
     );
   }

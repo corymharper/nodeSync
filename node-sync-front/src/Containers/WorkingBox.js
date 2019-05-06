@@ -16,12 +16,16 @@ window.JSHINT = JSHINT;
 
 export default class WorkingBox extends React.Component {
   state = {
-    code: ""
+    scripts: []
   };
+
+  componentDidMount() {
+    this.setState({ scripts: this.props.scripts });
+  }
 
   handleCodeChange = newCode => {
     this.setState({
-      code: newCode
+      scripts: newCode
     });
   };
 
@@ -55,7 +59,7 @@ export default class WorkingBox extends React.Component {
         onClick={SocketHandler.testEmit}
       >
         <CodeMirror
-          value={this.state.code}
+          value={this.state.scripts.content}
           onChange={this.handleCodeChange}
           options={options}
         />
