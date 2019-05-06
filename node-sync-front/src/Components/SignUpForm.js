@@ -77,7 +77,7 @@ export default class SignUpForm extends React.Component {
     ) {
       return;
     } else {
-      //call fetchData here?
+      //call fetchData here
       this.fetchData();
     }
   };
@@ -101,6 +101,9 @@ export default class SignUpForm extends React.Component {
       .then(res => res.json())
       .then(user => {
         console.log(user);
+        localStorage.setItem('token', user.token)
+        localStorage.setItem('username', user.username)
+        console.log(localStorage)
         //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
@@ -116,6 +119,7 @@ export default class SignUpForm extends React.Component {
 
         this.props.renderMainBox();
       });
+
   };
 
   render() {
