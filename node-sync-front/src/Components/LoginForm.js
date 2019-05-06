@@ -63,6 +63,7 @@ export default class LoginForm extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
+        console.log(user);
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
             pooling: {

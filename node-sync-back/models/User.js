@@ -22,7 +22,8 @@ class User extends Model {
 	set password(value) {
 	    let salt = bcrypt.genSaltSync(10)
 	    let hash = bcrypt.hashSync(value, salt);
-	    this.password_digest = hash
+        this.password_digest = hash
+        console.log(hash)
     }
     //get method for jwt token
 	get token(){

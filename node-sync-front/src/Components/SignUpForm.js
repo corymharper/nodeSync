@@ -29,6 +29,7 @@ export default class SignUpForm extends React.Component {
   };
 
   handleSubmit = event => {
+    console.log(this.state);
     event.preventDefault();
     let inputs = event.target.querySelectorAll("input");
     let username = event.target.querySelector("#username");
@@ -97,8 +98,10 @@ export default class SignUpForm extends React.Component {
         password: this.state.password
       })
     })
+      // .then(res => res.json())
       .then(res => res.json())
       .then(user => {
+        console.log(user);
         //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
