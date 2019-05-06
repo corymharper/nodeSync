@@ -6,7 +6,7 @@ export default class SignUpForm extends React.Component {
   state = {
     firstName: "",
     lastName: "",
-    userName: "",
+    username: "",
     password: ""
   }
 
@@ -29,14 +29,16 @@ export default class SignUpForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        firstName: e.target[0].value,
-        lastName: e.target[1].value,
-        userName: e.target[2].value, 
-        password: e.target[3].value 
+        //sending this.state
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        username: this.state.username,
+        password: this.state.password
       })
     })
       .then(res => res.json())
       .then(user => {
+        //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {
           transportOptions: {
             pooling: {
@@ -86,7 +88,7 @@ export default class SignUpForm extends React.Component {
           name = "userName"
           type = "text"
           value = {
-            this.state.userName
+            this.state.username
           }
           onChange = {
             event => this.handleChange(event)
