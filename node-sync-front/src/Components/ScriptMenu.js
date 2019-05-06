@@ -84,7 +84,7 @@ export default class ScriptMenu extends Component {
                 }}
               >
                 <Header
-                  as="h4"
+                  as="h5"
                   style={{
                     color: "rgba(255,255,255,.85)",
                     marginBottom: "7px"
