@@ -18,6 +18,8 @@ export default class App extends React.Component {
   };
 
   conditionalRender() {
+    //TODO: IF LOCALSTORAGE CONDITION
+    //TODO: CLEAR OUT LOCALSTORAGE FOR LOGOUT BUTTON
     if (this.state.mainbox) {
       return <MainBox />;
     } else if (this.state.signup) {
