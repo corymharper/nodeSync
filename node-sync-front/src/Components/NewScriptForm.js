@@ -27,7 +27,7 @@ export default class NewScriptForm extends React.Component {
   handleSubmit = event => {
     console.log(this.state);
     event.preventDefault();
-    //call fetchData here?
+    //call fetchData here
     let newUsers = [];
     // newUsers.push(this.props.user.id);
     this.setState({ users: newUsers }).then(this.fetchData());
