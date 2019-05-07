@@ -68,7 +68,8 @@ export default class LoginForm extends React.Component {
         //to make sessions
         localStorage.setItem('username', user.username)
         localStorage.setItem('userid', user.id)
-        localStorage.removeItem('token')
+        localStorage.setItem('token', user.token)
+        // localStorage.removeItem('token')
         console.log(localStorage)
         //use token to open up socket connection
         const io = socketIO("http://localhost:8080/", {

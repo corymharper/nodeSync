@@ -103,7 +103,8 @@ export default class SignUpForm extends React.Component {
         console.log(user);
         localStorage.setItem('userid', user.id)
         localStorage.setItem('username', user.username)
-        localStorage.removeItem('token')
+        localStorage.setItem('token', user.token)
+        // localStorage.removeItem('token')
         console.log(localStorage)
         //use the user data to open up a socket connection
         const io = socketIO("http://localhost:8080/", {

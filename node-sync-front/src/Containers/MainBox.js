@@ -24,6 +24,7 @@ export default class MainBox extends React.Component {
         console.log(data);
         this.setState({ users: data });
       });
+    
   }
 
   updateMainBox = () => {
