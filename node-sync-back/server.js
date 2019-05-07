@@ -152,6 +152,7 @@ app.get("/scripts/:id", (req, res) => {
 });
 
 app.post('/scripts', (req, res) => {
+  //TO BE TESTED.
   //create new script  
   let newScript = Script.build()
   //set up properties

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "codemirror": "^5.46.0",
+    "codemirror-ot": "^2.1.0",
     "jshint": "^2.10.2",
     "ot": "0.0.15",
     "react": "^16.8.6",
