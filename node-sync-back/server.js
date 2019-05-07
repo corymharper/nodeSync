@@ -19,25 +19,21 @@ const io = socketIo(8080, {
     res.end();
   }
 });
-
 //socket connections for user authentication
 io.on("connection", socket => {
   if (socket.handshake.headers.authorization) {
     let [type, token] = socket.handshake.headers.authorization.split(" ");
     let result = jwt.decode(token);
     let userId = result.id;
-    attachSocketListeners(socket, userId);
   } else {
+    console.log(
+      "\x1b[31m",
+      "--------------------------------------------------- YOU DONE GOT KICKED OUT ---------------------------------------------------"
+    );
     socket.disconnect(true);
   }
-});
 
-let attachSocketListeners = function(socket, userId) {
-  socket.on(console.log("You are authorized! You are connected."));
-};
-
-//socket connections for user model
-io.on("connection", socket => {
+  //socket connections for user model
   socket.on("users.index", respond => {
     User.findAll().then(users => {
       respond(users);
@@ -49,10 +45,7 @@ io.on("connection", socket => {
     let users = await User.findAll();
     io.emit("users.update", users);
   });
-});
 
-//socket connections for script model
-io.on("connection", socket => {
   socket.on("scripts.index", respond => {
     User.findAll().then(scripts => {
       respond(scripts);
@@ -64,10 +57,7 @@ io.on("connection", socket => {
     let scripts = await Script.findAll();
     io.emit("scripts.update", scripts);
   });
-});
 
-//socket connections for join table
-io.on("connection", socket => {
   socket.on("userScripts.index", respond => {
     UserScript.findAll().then(userScripts => {
       respond(userScripts);
@@ -161,9 +151,10 @@ app.post("/scripts", (req, res) => {
     //link script to specific user
     .then(newScript => res.json(newScript));
   User.findByPk(req.body.userid).then(user => {
-    user
-      .addScript(newScript, { through: { role: "owner" } })
+    user.addScript(newScript, { through: { role: "owner" } });
   });
+  console.log("is this reachable?");
+  io.emit("scriptCreated", newScript);
 });
 
 app.patch("/scripts/:id", async (req, res) => {

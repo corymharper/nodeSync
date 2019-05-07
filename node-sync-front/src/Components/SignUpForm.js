@@ -101,25 +101,14 @@ export default class SignUpForm extends React.Component {
       .then(res => res.json())
       .then(user => {
         console.log(user);
-        localStorage.setItem('userid', user.id)
-        localStorage.setItem('username', user.username)
-        localStorage.removeItem('token')
-        console.log(localStorage)
+        localStorage.setItem("userid", user.id);
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("token", user.token);
+        console.log(localStorage);
         //use the user data to open up a socket connection
-        const io = socketIO("http://localhost:8080/", {
-          transportOptions: {
-            pooling: {
-              //send extra headers to socket-io
-              extraHeaders: {
-                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-                Authorization: `Bearer ${user.token}`
-              }
-            }
-          }
-        });
+
         this.props.renderMainBox();
       });
-
   };
 
   render() {

@@ -1,18 +1,26 @@
-import socketIO from 'socket.io-client'
-
-const io = socketIO('http://localhost:8080/')
+import socketIO from "socket.io-client";
 
 export default class SocketHandler {
+  constructor() {}
 
+  static connect = token => {
+    console.log("WS connecting...");
+    this.io = socketIO("http://localhost:8080/", {
+      transportOptions: {
+        polling: {
+          //send extra headers to socket-io
+          extraHeaders: {
+            // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${token}`
+          }
+        }
+      }
+    });
+  };
 
-    constructor(){
+  static registerSocketListener = (emitType, callback) => {
+    console.log("listener registered");
 
-    }
-
-    static testEmit = () => {
-        console.log('here')
-        io.emit('connection', () => console.log("hello world"))
-    }
-
-
+    this.io.on(emitType, callback);
+  };
 }
