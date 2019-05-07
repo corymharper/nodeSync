@@ -73,7 +73,10 @@ export default class NotesBox extends React.Component {
         {/* {this.props.scripts.map(script => {
           return <Preview {...script} />;
         })} */}
-        <ScriptMenu scripts={this.props.scripts} />
+        <ScriptMenu
+          scripts={this.props.scripts}
+          updateMainBox={this.props.updateMainBox}
+        />
       </Container>
     );
   }

@@ -71,7 +71,7 @@ export default class NewScriptForm extends React.Component {
 
   render() {
     return (
-      <Form size={"small"} key={"small"} onSubmit={this.handleSubmit}>
+      <Form size={"small"} key={"small"}>
         <Form.Field>
           <Form.Input
             label="Title"
@@ -105,7 +105,7 @@ export default class NewScriptForm extends React.Component {
           <datalist id="categories">{this.categoryOptions()}</datalist>
         </Form.Field> */}
 
-        <Button type="submit">
+        <Button type="submit" onClick={this.handleSubmit}>
           Start typing <Icon name="chevron right" />
         </Button>
       </Form>

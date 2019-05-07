@@ -27,6 +27,7 @@ export default class EditScriptForm extends React.Component {
 
   handleSubmit = () => {
     this.fetchData();
+    this.props.updateMainBox();
   };
 
   fetchData = () => {

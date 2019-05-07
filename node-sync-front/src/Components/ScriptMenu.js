@@ -53,7 +53,7 @@ export default class ScriptMenu extends Component {
                 <Modal.Header>Edit Script</Modal.Header>
                 <Modal.Content scrolling>
                   <Modal.Description>
-                    <EditScriptForm />
+                    <EditScriptForm updateMainBox={this.props.updateMainBox} />
                   </Modal.Description>
                 </Modal.Content>
                 {/* <Modal.Actions>
@@ -128,11 +128,18 @@ export default class ScriptMenu extends Component {
                     textOverflow: "ellipsis"
                   }}
                 >
-                  {script.title}
+                  {script.title ? script.title : "Unnamed script"}
                 </Header>
                 <List style={{ fontSize: "12px" }}>
-                  <List.Item style={{ color: "#898989" }}>
-                    {script.language}
+                  <List.Item
+                    style={{
+                      color: "#898989",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}
+                  >
+                    {script.language ? script.language : "Unspecified language"}
                   </List.Item>
                   <List.Item
                     style={{
@@ -142,7 +149,7 @@ export default class ScriptMenu extends Component {
                       textOverflow: "ellipsis"
                     }}
                   >
-                    {script.category}
+                    {script.category ? script.category : "Unspecified category"}
                   </List.Item>
                 </List>
               </div>
