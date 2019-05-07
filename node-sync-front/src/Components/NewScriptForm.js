@@ -8,6 +8,7 @@ import {
   Header,
   Icon
 } from "semantic-ui-react";
+// import { getEnabledCategories } from "trace_events";
 
 export default class NewScriptForm extends React.Component {
   state = {
@@ -70,6 +71,15 @@ export default class NewScriptForm extends React.Component {
       });
   };
 
+  categoryOptions = () => {
+    let categories = this.props.scripts.map(script => {
+      return script.category;
+    });
+    let uniqueCategories = [...new Set(categories)];
+
+    return uniqueCategories;
+  };
+
   render() {
     return (
       <Form size={"small"} key={"small"} onSubmit={this.handleSubmit}>
@@ -84,13 +94,18 @@ export default class NewScriptForm extends React.Component {
         </Form.Field>
         <Form.Field>
           <Form.Input
-            label="First Name"
-            placeholder="First Name"
-            name="title"
-            id="title"
+            label="Category"
+            list="categories"
+            placeholder="Enter or select an existing category describing your script"
+            name="category"
+            id="category"
             onChange={this.handleChange}
-            className={this.state.titleError}
           />
+          <datalist id="categories">
+            <option value="English" />
+            <option value="Chinese" />
+            <option value="Dutch" />
+          </datalist>
         </Form.Field>
         <Form.Field>
           <Form.Input
@@ -99,7 +114,6 @@ export default class NewScriptForm extends React.Component {
             name="language"
             id="language"
             onChange={this.handleChange}
-            className={this.state.languageError}
           />
         </Form.Field>
         <Form.Field>
