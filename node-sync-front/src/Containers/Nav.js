@@ -72,7 +72,7 @@ export default class Nav extends React.Component {
             <Icon name="setting" />
           </Button> */}
         </div>
-        <MenuSpace />
+        <MenuSpace hideMainBox = {this.props.hideMainBox}/>
       </Container>
     );
   }

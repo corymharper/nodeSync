@@ -1,11 +1,17 @@
 import React, { Component } from "react";
 import { Dropdown, Icon, Input, Menu } from "semantic-ui-react";
 
+
 export default class MenuSpace extends Component {
   state = {};
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
-
+  
+  handleLogOut = (e, { name })=> {
+    this.setState({activeItem: name});
+    localStorage.clear();
+    this.props.hideMainBox();
+  }
   render() {
     const { activeItem } = this.state;
 
@@ -21,6 +27,12 @@ export default class MenuSpace extends Component {
           textAlign: "left"
         }}
       >
+        <Menu.Item
+          name="all-scripts"
+          active={activeItem === "all-scripts"}
+        >
+          Hello, {localStorage.getItem('username')}!
+        </Menu.Item>
         <Menu.Item
           name="all-scripts"
           active={activeItem === "all-scripts"}
@@ -114,9 +126,15 @@ export default class MenuSpace extends Component {
         </Menu.Item>
         <Menu.Item
           active={activeItem === "logout"}
-          onClick={this.handleItemClick}
+          onClick={this.handleLogOut}
         >
           Log Out
+        </Menu.Item>
+        <Menu.Item
+          active={activeItem === "golive"}
+          onClick={() => window.TogetherJS(window)}
+        >
+          Go Live
         </Menu.Item>
       </Menu>
     );

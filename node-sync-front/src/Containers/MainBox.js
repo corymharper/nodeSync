@@ -17,7 +17,7 @@ export default class MainBox extends React.Component {
         this.setState({ scripts: data });
       });
 
-    fetch("http://localhost:3001/scripts")
+    fetch("http://localhost:3001/users")
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
@@ -28,7 +28,7 @@ export default class MainBox extends React.Component {
   render() {
     return (
       <div className="mainContainer" style={{ color: "#898989" }}>
-        <Nav />
+        <Nav hideMainBox = {this.props.hideMainBox}/>
         <NotesBox scripts={this.state.scripts} users={this.state.users} />
         <WorkingBox scripts={this.state.scripts} users={this.state.users} />
       </div>

@@ -9,28 +9,30 @@ Script.sync();
 UserScript.sync();
 // UserScript.destroy({where:{}})
 
-const users = [
-  {
-    firstName: "Cory",
-    lastName: "Harper",
-    username: "Cory",
-    password: "password"
-  },
-  {
-    firstName: "Jing",
-    lastName: "Chen",
-    username: "Jing",
-    password: "password"
-  },
-  {
-    firstName: "Eli",
-    lastName: "Lauffenburger",
-    username: "Eli",
-    password: "password"
-  }
-];
 
-users.forEach(user => User.create(user));
+//NOTE: since we are using authentication, we can only create user via sign up forms now.
+// const users = [
+//   {
+//     firstName: "Cory",
+//     lastName: "Harper",
+//     username: "Cory",
+//     password: "password"
+//   },
+//   {
+//     firstName: "Jing",
+//     lastName: "Chen",
+//     username: "Jing",
+//     password: "password"
+//   },
+//   {
+//     firstName: "Eli",
+//     lastName: "Lauffenburger",
+//     username: "Eli",
+//     password: "password"
+//   }
+// ];
+
+// users.forEach(user => User.create(user));
 
 const scripts = [
   {
