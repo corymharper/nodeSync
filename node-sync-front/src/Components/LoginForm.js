@@ -17,7 +17,6 @@ export default class LoginForm extends React.Component {
     passwordError: ""
   };
 
-
   handleChange = event => {
     this.setState({
       [event.target.name]: event.target.value
@@ -58,7 +57,7 @@ export default class LoginForm extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        username: this.state.username, 
+        username: this.state.username,
         password: this.state.password
       })
     })
@@ -66,25 +65,12 @@ export default class LoginForm extends React.Component {
       .then(user => {
         console.log(user);
         //to make sessions
-        localStorage.setItem('username', user.username)
-        localStorage.setItem('userid', user.id)
-        localStorage.setItem('token', user.token)
-        // localStorage.removeItem('token')
-        console.log(localStorage)
-        //use token to open up socket connection
-        const io = socketIO("http://localhost:8080/", {
-          transportOptions: {
-            pooling: {
-              //send extra headers to socket-io
-              extraHeaders: {
-                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-                Authorization: `Bearer ${user.token}`
-              }
-            }
-          }
-        });
+        localStorage.setItem("username", user.username);
+        localStorage.setItem("userid", user.id);
+        localStorage.setItem("token", user.token);
+        console.log(localStorage);
         //call render mainbox
-        this.props.renderMainBox()
+        this.props.renderMainBox();
       });
   };
 

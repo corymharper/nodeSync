@@ -56,7 +56,6 @@ export default class WorkingBox extends React.Component {
           color: "white",
           overflowY: "auto"
         }}
-        onClick={SocketHandler.testEmit}
       >
         <CodeMirror value="" options={options} />
       </Container>
