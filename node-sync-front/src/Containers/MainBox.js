@@ -10,7 +10,7 @@ export default class MainBox extends React.Component {
   };
 
   componentDidMount() {
-    fetch("http://localhost:3001/scripts")
+    fetch(`http://localhost:3001/users/${localStorage.userid}/scripts`)
       .then(resp => resp.json())
       .then(data => {
         console.log(data);

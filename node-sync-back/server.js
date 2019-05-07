@@ -163,7 +163,6 @@ app.post("/scripts", (req, res) => {
   User.findByPk(req.body.userid).then(user => {
     user
       .addScript(newScript, { through: { role: "owner" } })
-      .then(newScript => res.json(newScript));
   });
 });
 

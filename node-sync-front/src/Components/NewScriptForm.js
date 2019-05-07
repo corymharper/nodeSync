@@ -34,7 +34,7 @@ export default class NewScriptForm extends React.Component {
 
   fetchData = () => {
     console.log("function is running");
-    fetch("http://localhost:3001/scripts", {
+    fetch("http://localhost:3001/scripts/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

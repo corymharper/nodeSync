@@ -27,7 +27,7 @@ export default class MenuSpace extends Component {
         }}
       >
         <Menu.Item style={{ color: "#898989", fontSize: "12px" }}>
-          {localStorage.getItem("username")}
+          Hello, {localStorage.getItem("username")}!
         </Menu.Item>
         <Menu.Item
           name="all-scripts"
