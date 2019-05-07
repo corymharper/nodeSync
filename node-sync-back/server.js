@@ -100,6 +100,21 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.post("/users", (req, res) => {
+  //create new user
+  let newUser = User.build();
+  //set up properties
+  newUser.username = req.body.username;
+  newUser.firstName = req.body.firstName;
+  newUser.lastName = req.body.lastName;
+  newUser.password = req.body.password;
+  //save newUser to database
+  newUser.save().then(newUser =>
+    // console.log(newUser);
+    res.json(newUser)
+  );
+});
+
 app.get("/users/:id", (req, res) => {
   User.findByPk(req.params.id).then(user => {
     res.json(user);
@@ -131,6 +146,27 @@ app.get("/scripts/:id", (req, res) => {
   });
 });
 
+app.post("/scripts", (req, res) => {
+  //TO BE TESTED.
+  //create new script
+  let newScript = Script.build();
+  //set up properties
+  newScript.title = req.body.title;
+  // newScript.content = req.body.content
+  newScript.language = req.body.language;
+  newScript.category = req.body.category;
+  //save newScript to database
+  newScript
+    .save()
+    //link script to specific user
+    .then(newScript => res.json(newScript));
+  User.findByPk(req.body.userid).then(user => {
+    user
+      .addScript(newScript, { through: { role: "owner" } })
+      .then(newScript => res.json(newScript));
+  });
+});
+
 app.patch("/scripts/:id", async (req, res) => {
   let script = await Script.findByPk(req.params.id);
   script.update(req.body);
@@ -143,15 +179,24 @@ app.delete("/scripts/:id", async (req, res) => {
   console.log("This script is deleted");
 });
 
-app.post("/scripts", (req, res) => {
-  console.log(req);
-  User.create(req.body);
-});
-
 //http methods for userScript model, API
 app.get("/userScripts", (req, res) => {
   UserScript.findAll().then(userScripts => {
     res.json(userScripts);
+  });
+});
+
+//show specific users' scripts
+app.get("/users/:id/scripts", (req, res) => {
+  User.findByPk(req.params.id).then(user => {
+    user.getScripts().then(scripts => res.json(scripts));
+  });
+});
+
+//show specific scripts' users
+app.get("/scripts/:id/users", (req, res) => {
+  Script.findByPk(req.params.id).then(script => {
+    script.getUsers().then(users => res.json(users));
   });
 });
 
@@ -169,21 +214,6 @@ app.post("/login", (req, res) => {
       res.json(user);
     }
   });
-});
-
-app.post("/users", (req, res) => {
-  //create new user
-  let newUser = User.build();
-  //set up properties
-  newUser.username = req.body.username;
-  newUser.firstName = req.body.firstName;
-  newUser.lastName = req.body.lastName;
-  newUser.password = req.body.password;
-  //save newUser to database
-  newUser.save().then(newUser =>
-    // console.log(newUser);
-    res.json(newUser)
-  );
 });
 
 //port for express
