@@ -6,7 +6,8 @@ import {
   Message,
   Container,
   Header,
-  Icon
+  Icon,
+  Select
 } from "semantic-ui-react";
 // import { getEnabledCategories } from "trace_events";
 
@@ -15,8 +16,7 @@ export default class NewScriptForm extends React.Component {
     title: "",
     language: "",
     category: "",
-    collaborators: [],
-    users: []
+    userid: localStorage.getItem("userid")
   };
 
   handleChange = event => {
@@ -29,9 +29,7 @@ export default class NewScriptForm extends React.Component {
     console.log(this.state);
     event.preventDefault();
     //call fetchData here?
-    let newUsers = [];
-    // newUsers.push(this.props.user.id);
-    this.setState({ users: newUsers }).then(this.fetchData());
+    this.fetchData();
   };
 
   fetchData = () => {
@@ -46,29 +44,9 @@ export default class NewScriptForm extends React.Component {
         title: this.state.title,
         language: this.state.language,
         category: this.state.category,
-        users: this.state.users,
-        collaborators: this.state.collaborators
+        userid: this.state.userid
       })
-    })
-      // .then(res => res.json())
-      .then(res => res.json())
-      .then(user => {
-        console.log(user);
-        //use the user data to open up a socket connection
-        const io = socketIO("http://localhost:8080/", {
-          transportOptions: {
-            pooling: {
-              //send extra headers to socket-io
-              extraHeaders: {
-                // 'Authorization': `Bearer ${localStorage.getItem('token')}`
-                Authorization: `Bearer ${user.token}`
-              }
-            }
-          }
-        });
-
-        this.props.renderMainBox();
-      });
+    });
   };
 
   categoryOptions = () => {
@@ -77,7 +55,18 @@ export default class NewScriptForm extends React.Component {
     });
     let uniqueCategories = [...new Set(categories)];
 
-    return uniqueCategories;
+    return uniqueCategories.map(category => {
+      return <option value={category} />;
+    });
+  };
+
+  languageOptions = () => {
+    return [
+      { key: "Ruby", text: "Ruby", value: "Ruby" },
+      { key: "Javascript", text: "Javascript", value: "Javascript" },
+      { key: "JSX", text: "JSX", value: "JSX" },
+      { key: "Python", text: "Python", value: "Python" }
+    ];
   };
 
   render() {
@@ -92,7 +81,19 @@ export default class NewScriptForm extends React.Component {
             id="title"
           />
         </Form.Field>
+
         <Form.Field>
+          <Form.Select
+            label="Language"
+            placeholder="Select a programming language for your script"
+            name="language"
+            id="language"
+            onChange={this.handleChange}
+            options={this.languageOptions()}
+          />
+        </Form.Field>
+
+        {/* <Form.Field>
           <Form.Input
             label="Category"
             list="categories"
@@ -101,43 +102,9 @@ export default class NewScriptForm extends React.Component {
             id="category"
             onChange={this.handleChange}
           />
-          <datalist id="categories">
-            <option value="English" />
-            <option value="Chinese" />
-            <option value="Dutch" />
-          </datalist>
-        </Form.Field>
-        <Form.Field>
-          <Form.Input
-            label="Last Name"
-            placeholder="Last Name"
-            name="language"
-            id="language"
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field>
-          <Form.Input
-            label="Password"
-            placeholder="Password"
-            name="password"
-            type="password"
-            onChange={this.handleChange}
-            className={this.state.passwordError}
-            id="password"
-          />
-        </Form.Field>
-        <Form.Field>
-          <Form.Input
-            label="Confirm Password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            onChange={this.handleChange}
-            className={this.state.confirmPasswordError}
-            id="confirmPassword"
-          />
-        </Form.Field>
+          <datalist id="categories">{this.categoryOptions()}</datalist>
+        </Form.Field> */}
+
         <Button type="submit">
           Start typing <Icon name="chevron right" />
         </Button>

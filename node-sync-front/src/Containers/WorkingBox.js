@@ -1,7 +1,7 @@
 import React from "react";
 import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
-import {UnControlled as CodeMirror} from 'react-codemirror2'
+import { UnControlled as CodeMirror } from "react-codemirror2";
 import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/jsx/jsx");
@@ -18,7 +18,7 @@ export default class WorkingBox extends React.Component {
   state = {
     scripts: [],
     initalValue: ""
-  }
+  };
   componentDidMount() {
     this.setState({ scripts: this.props.scripts });
   }
@@ -48,7 +48,7 @@ export default class WorkingBox extends React.Component {
         style={{
           resize: "both",
           position: "absolute",
-          left: `${(window.innerWidth / 100) * 19}px`,
+          left: `280px`,
           top: "0px",
           width: "100vw",
           height: "100vh",
@@ -58,10 +58,7 @@ export default class WorkingBox extends React.Component {
         }}
         onClick={SocketHandler.testEmit}
       >
-        <CodeMirror
-          value=""
-          options={options}
-        />
+        <CodeMirror value="" options={options} />
       </Container>
     );
   }

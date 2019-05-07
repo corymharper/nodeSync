@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Menu, Header, List, Label, ListItem } from "semantic-ui-react";
+import {
+  Menu,
+  Header,
+  List,
+  Label,
+  ListItem,
+  Icon,
+  Modal
+} from "semantic-ui-react";
+import EditScriptForm from "./EditScriptForm";
 
 export default class ScriptMenu extends Component {
   state = { activeItem: "home" };
@@ -27,6 +36,32 @@ export default class ScriptMenu extends Component {
               active={activeItem === script.title}
               onClick={this.handleItemClick}
             >
+              <Modal
+                trigger={
+                  <Icon
+                    style={{
+                      position: "absolute",
+                      top: "10%",
+                      right: "0%",
+                      color: "#898989"
+                    }}
+                    name="ellipsis vertical"
+                  />
+                }
+                blurring
+              >
+                <Modal.Header>Edit Script</Modal.Header>
+                <Modal.Content scrolling>
+                  <Modal.Description>
+                    <EditScriptForm />
+                  </Modal.Description>
+                </Modal.Content>
+                {/* <Modal.Actions>
+              <Button primary>
+                Proceed <Icon name="chevron right" />
+              </Button>
+            </Modal.Actions> */}
+              </Modal>
               <div
                 style={{
                   position: "absolute",
@@ -79,15 +114,18 @@ export default class ScriptMenu extends Component {
                   left: "30%",
                   width: "70%",
                   height: "100%",
-                  textAlign: "left",
-                  wordWrap: "normal"
+                  textAlign: "left"
                 }}
               >
                 <Header
-                  as="h5"
                   style={{
                     color: "rgba(255,255,255,.85)",
-                    marginBottom: "7px"
+                    marginBottom: "7px",
+                    width: "100%",
+                    fontSize: "12px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis"
                   }}
                 >
                   {script.title}
@@ -96,7 +134,14 @@ export default class ScriptMenu extends Component {
                   <List.Item style={{ color: "#898989" }}>
                     {script.language}
                   </List.Item>
-                  <List.Item style={{ color: "#898989" }}>
+                  <List.Item
+                    style={{
+                      color: "#898989",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}
+                  >
                     {script.category}
                   </List.Item>
                 </List>

@@ -18,10 +18,10 @@ export default class NotesBox extends React.Component {
       <Container
         style={{
           position: "absolute",
-          left: `${(window.innerWidth / 100) * 8}px`,
+          left: `120px`,
           top: "0px",
           height: "100vh",
-          width: `${(window.innerWidth / 100) * 11}px`,
+          width: `160px`,
           backgroundColor: "#262626",
           borderRight: "solid black 1px",
           overflowY: "auto"

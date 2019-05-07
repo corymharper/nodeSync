@@ -5,11 +5,7 @@ import { userInfo } from "os";
 import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
 import { ifError } from "assert";
-import {
-  BrowserRouter,
-  Router,
-  Switch
-} from 'react-router-dom'
+import { BrowserRouter, Router, Switch } from "react-router-dom";
 
 export default class App extends React.Component {
   state = { mainbox: false, signup: false };
@@ -22,22 +18,24 @@ export default class App extends React.Component {
     this.setState({ mainbox: true });
   };
 
-  hideMainBox = ()=> {
-    this.setState({ mainbox: false })
-  }
+  hideMainBox = () => {
+    this.setState({ mainbox: false });
+  };
 
   conditionalRender() {
-    if(!localStorage.userid){
-      if(!this.state.signup){
-        return  (<LoginForm
-              renderMainBox={this.renderMainBox}
-              renderSignUp={this.renderSignUp}
-              />)
-      }else{
+    if (!localStorage.userid) {
+      if (!this.state.signup) {
+        return (
+          <LoginForm
+            renderMainBox={this.renderMainBox}
+            renderSignUp={this.renderSignUp}
+          />
+        );
+      } else {
         return <SignUpForm renderMainBox={this.renderMainBox} />;
       }
-    }else{
-      return <MainBox hideMainBox={this.hideMainBox}/ > ;
+    } else {
+      return <MainBox hideMainBox={this.hideMainBox} />;
     }
   }
 

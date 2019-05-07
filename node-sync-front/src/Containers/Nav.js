@@ -20,7 +20,7 @@ export default class Nav extends React.Component {
           left: "0px",
           top: "0px",
           height: "100vh",
-          width: `${(window.innerWidth / 100) * 8}px`,
+          width: `120px`,
           backgroundColor: "#353535",
           //   backgroundColor: "#515151",
           borderRight: "solid black 1px",
@@ -72,7 +72,7 @@ export default class Nav extends React.Component {
             <Icon name="setting" />
           </Button> */}
         </div>
-        <MenuSpace hideMainBox = {this.props.hideMainBox}/>
+        <MenuSpace hideMainBox={this.props.hideMainBox} />
       </Container>
     );
   }
