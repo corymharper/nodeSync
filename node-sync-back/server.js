@@ -24,7 +24,7 @@ io.on("connection", socket => {
   if (socket.handshake.headers.authorization) {
     let [type, token] = socket.handshake.headers.authorization.split(" ");
     let result = jwt.decode(token);
-    let userId = result.id;
+    // let userId = result.id;
   } else {
     console.log(
       "\x1b[31m",
