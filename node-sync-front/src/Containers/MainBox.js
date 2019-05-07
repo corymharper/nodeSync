@@ -6,7 +6,8 @@ import WorkingBox from "./WorkingBox";
 export default class MainBox extends React.Component {
   state = {
     scripts: [],
-    users: []
+    users: [],
+    activeScript: ""
   };
 
   componentDidMount() {
@@ -25,11 +26,19 @@ export default class MainBox extends React.Component {
       });
   }
 
+  updateMainBox = () => {
+    this.forceUpdate();
+  };
+
   render() {
     return (
       <div className="mainContainer" style={{ color: "#898989" }}>
-        <Nav hideMainBox = {this.props.hideMainBox}/>
-        <NotesBox scripts={this.state.scripts} users={this.state.users} />
+        <Nav hideMainBox={this.props.hideMainBox} />
+        <NotesBox
+          scripts={this.state.scripts}
+          users={this.state.users}
+          updateMainBox={this.updateMainBox}
+        />
         <WorkingBox scripts={this.state.scripts} users={this.state.users} />
       </div>
     );
