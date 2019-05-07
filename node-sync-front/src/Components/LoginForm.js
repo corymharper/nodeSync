@@ -48,8 +48,6 @@ export default class LoginForm extends React.Component {
     } else {
       //call fetchData
       this.fetchData();
-      //call render mainbox
-        this.props.renderMainBox()
     }
   };
 
@@ -84,6 +82,8 @@ export default class LoginForm extends React.Component {
             }
           }
         });
+        //call render mainbox
+        this.props.renderMainBox()
       });
   };
 

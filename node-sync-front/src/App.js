@@ -5,6 +5,11 @@ import { userInfo } from "os";
 import LoginForm from "./Components/LoginForm";
 import SignUpForm from "./Components/SignUpForm";
 import { ifError } from "assert";
+import {
+  BrowserRouter,
+  Router,
+  Switch
+} from 'react-router-dom'
 
 export default class App extends React.Component {
   state = { mainbox: false, signup: false };
@@ -17,20 +22,22 @@ export default class App extends React.Component {
     this.setState({ mainbox: true });
   };
 
+  hideMainBox = ()=> {
+    this.setState({ mainbox: false })
+  }
+
   conditionalRender() {
-    //TODO: IF LOCALSTORAGE CONDITION
-    //TODO: CLEAR OUT LOCALSTORAGE FOR LOGOUT BUTTON
-    if (this.state.mainbox) {
-      return <MainBox />;
-    } else if (this.state.signup) {
-      return <SignUpForm renderMainBox={this.renderMainBox} />;
-    } else {
-      return (
-        <LoginForm
-          renderMainBox={this.renderMainBox}
-          renderSignUp={this.renderSignUp}
-        />
-      );
+    if(!localStorage.userid){
+      if(!this.state.signup){
+        return  (<LoginForm
+              renderMainBox={this.renderMainBox}
+              renderSignUp={this.renderSignUp}
+              />)
+      }else{
+        return <SignUpForm renderMainBox={this.renderMainBox} />;
+      }
+    }else{
+      return <MainBox hideMainBox={this.hideMainBox}/ > ;
     }
   }
 
