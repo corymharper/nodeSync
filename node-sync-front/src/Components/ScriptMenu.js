@@ -8,10 +8,9 @@ import {
   Icon,
   Modal
 } from "semantic-ui-react";
-import Moment from 'react-moment';
-import moment from 'moment';
+import Moment from "react-moment";
+import moment from "moment";
 import EditScriptForm from "./EditScriptForm";
-
 
 export default class ScriptMenu extends Component {
   state = {
@@ -19,19 +18,22 @@ export default class ScriptMenu extends Component {
     displayedScripts: []
   };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = script => this.props.setActiveScript(script);
 
-  static getDerivedStateFromProps(props, state){
+  static getDerivedStateFromProps(props, state) {
     return {
-      displayedScripts: props.filtered.length === 0 ? props.scripts : props.filtered
-    }
+      displayedScripts:
+        props.filtered.length === 0 ? props.scripts : props.filtered
+    };
   }
 
   render() {
-    const { activeItem } = this.state;
+    const activeItem = this.props.activeScript
+      ? this.props.activeScript.id
+      : null;
     console.log(this.props.scripts);
 
-    let moment = require('moment-shortformat');
+    let moment = require("moment-shortformat");
 
     return (
       <Menu
@@ -99,7 +101,11 @@ export default class ScriptMenu extends Component {
                       </Label>
                     </ListItem>
                     <ListItem style={{ color: "#898989" }}>
-                      <h5>{moment(script.createdAt).short().replace('ago', '')}</h5>
+                      <h5>
+                        {moment(script.createdAt)
+                          .short()
+                          .replace("ago", "")}
+                      </h5>
                     </ListItem>
                   </List>
                 </div>
