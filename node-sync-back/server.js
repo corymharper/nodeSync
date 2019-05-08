@@ -55,11 +55,33 @@ io.on("connection", socket => {
     });
   });
 
-  socket.on("scripts.update", async params => {
+  socket.on("script.edit", async params => {
     let script = await Script.findByPk(params.id);
     await script.update(params);
-    let scripts = await Script.findAll();
-    io.emit("scripts.update", scripts);
+    io.emit("script.edited", script);
+  });
+
+  socket.on("script.delete", async payload => {
+    let script = await Script.findByPk(payload.script_id);
+    await script.destroy();
+    io.emit("script.deleted", script);
+  });
+
+  socket.on("script.create", async params => {
+    let newScript = await Script.build();
+    //set up properties
+    newScript.title = params.title;
+    newScript.content = "//start typing your new script here...";
+    newScript.language = params.language;
+    newScript.category = params.category;
+    newScript.userid = params.userid;
+    //save newScript to database
+    newScript.save().then(savedScript => {
+      User.findByPk(params.userid).then(user => {
+        user.addScript(savedScript, { through: { role: "owner" } });
+      });
+      io.emit("scriptCreated", savedScript);
+    });
   });
 
   socket.on("userScripts.index", respond => {
@@ -71,6 +93,7 @@ io.on("connection", socket => {
   socket.on("userScripts.update", async params => {
     let userScript = await UserScript.findByPk(params.id);
     await userScript.update(params);
+
     let userScripts = await UserScript.findAll();
     io.emit("userScripts.update", userScripts);
   });
