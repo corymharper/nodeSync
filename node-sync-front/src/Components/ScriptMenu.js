@@ -12,11 +12,13 @@ import EditScriptForm from "./EditScriptForm";
 
 export default class ScriptMenu extends Component {
   state = {
-    activeItem: "home",
-    reverseScripts: this.props.scripts.slice().reverse()
+    activeItem: "home"
   };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+  handleItemClick = script => {
+    this.setState({ activeItem: script.title });
+    this.props.setActiveScript(script);
+  };
 
   render() {
     const { activeItem } = this.state;
@@ -33,7 +35,6 @@ export default class ScriptMenu extends Component {
           top: "0%",
           margin: "0px"
         }}
-        onClick={this.checkProps}
       >
         {this.props.scripts
           .slice()
@@ -43,7 +44,7 @@ export default class ScriptMenu extends Component {
               <Menu.Item
                 name={script.title}
                 active={activeItem === script.title}
-                onClick={this.handleItemClick}
+                onClick={() => this.handleItemClick(script)}
               >
                 <Modal
                   trigger={
