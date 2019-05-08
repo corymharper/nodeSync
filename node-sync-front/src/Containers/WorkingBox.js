@@ -1,11 +1,8 @@
 import React from "react";
 import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
-<<<<<<< HEAD
-=======
-import DiffMatchPatch from 'diff-match-patch';
-import socketIO from 'socket.io-client'
->>>>>>> 915adfb793550f6cfea4b5bafa905915bbeb1dd0
+import DiffMatchPatch from "diff-match-patch";
+import socketIO from "socket.io-client";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
@@ -33,14 +30,14 @@ export default class WorkingBox extends React.Component {
 
   componentDidMount() {
     this.setState({ scripts: this.props.scripts });
-    SocketHandler.registerSocketListener('client.update', payload => {
-      console.log('we are in here')
-      diff = dmp.diff_main(this.state.value, payload)
-      patch = dmp.patch_make(this.state.value, diff)
-      applyPatch = dmp.patch_apply(patch, this.state.value)
+    SocketHandler.registerSocketListener("client.update", payload => {
+      console.log("we are in here");
+      diff = dmp.diff_main(this.state.value, payload);
+      patch = dmp.patch_make(this.state.value, diff);
+      applyPatch = dmp.patch_apply(patch, this.state.value);
       this.setState({
-          ...this.state,
-          value: applyPatch[0],
+        ...this.state,
+        value: applyPatch[0]
       });
     });
   }
@@ -84,32 +81,30 @@ export default class WorkingBox extends React.Component {
           overflowY: "auto"
         }}
       >
-      
-      <CodeMirror
-        value={this.state.value}
-        options={options}
-        onBeforeChange={(editor, data, value) => {
-            diff = dmp.diff_main(this.state.value, value)
-            patch = dmp.patch_make(this.state.value, diff)
-            applyPatch = dmp.patch_apply(patch, this.state.value)
-            SocketHandler.emit('editor.update', patch)
-            console.log('we made it here')
+        <CodeMirror
+          value={this.state.value}
+          options={options}
+          onBeforeChange={(editor, data, value) => {
+            diff = dmp.diff_main(this.state.value, value);
+            patch = dmp.patch_make(this.state.value, diff);
+            applyPatch = dmp.patch_apply(patch, this.state.value);
+            SocketHandler.emit("editor.update", patch);
+            console.log("we made it here");
             this.setState({
-                ...this.state,
-                value: applyPatch[0]
-                });
-        }}
-        editorDidMount={editor => { 
-          this.setState({
-            ...this.state,
-            instance: editor
-          })
-            }
-        }
-        onChange={(editor, data, value) => {
-            console.log(value)
-        }}
-      />
+              ...this.state,
+              value: applyPatch[0]
+            });
+          }}
+          editorDidMount={editor => {
+            this.setState({
+              ...this.state,
+              instance: editor
+            });
+          }}
+          onChange={(editor, data, value) => {
+            console.log(value);
+          }}
+        />
       </Container>
     );
   }
