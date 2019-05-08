@@ -6,13 +6,16 @@ const socketIo = require("socket.io");
 const User = require("./models/User");
 const Script = require("./models/Script");
 const UserScript = require("./models/UserScript");
+const diffMatchPatch = require('diff-match-patch')
+let serverText = ""
+const dmp = new diffMatchPatch();
 
 //SOCKET.IO
 const io = socketIo(8080, {
   handlePreflightRequest: function(req, res) {
     let headers = {
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Origin": "http://10.185.4.241:3000",
       "Access-Control-Allow-Credentials": true
     };
     res.writeHead(200, headers);
@@ -70,6 +73,12 @@ io.on("connection", socket => {
     await userScript.update(params);
     let userScripts = await UserScript.findAll();
     io.emit("userScripts.update", userScripts);
+  });
+
+  socket.on('editor.update', payload => {
+    console.log('we are in here')
+    serverText = dmp.patch_apply(payload, serverText)[0]
+    io.emit("client.update", serverText)
   });
 });
 
