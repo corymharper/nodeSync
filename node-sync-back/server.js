@@ -51,6 +51,7 @@ io.on("connection", socket => {
       respond(scripts);
     });
   });
+
   socket.on("scripts.update", async params => {
     let script = await Script.findByPk(params.id);
     await script.update(params);
@@ -63,6 +64,7 @@ io.on("connection", socket => {
       respond(userScripts);
     });
   });
+  
   socket.on("userScripts.update", async params => {
     let userScript = await UserScript.findByPk(params.id);
     await userScript.update(params);

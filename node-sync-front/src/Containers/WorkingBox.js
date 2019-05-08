@@ -17,8 +17,10 @@ window.JSHINT = JSHINT;
 export default class WorkingBox extends React.Component {
   state = {
     scripts: [],
-    initalValue: ""
+    initialValue: '//Write your code here! For Example: \n const a = 0; \n const b = 1; \n const c = a + b;',
+    code: null
   };
+
   componentDidMount() {
     this.setState({ scripts: this.props.scripts });
   }
@@ -29,10 +31,15 @@ export default class WorkingBox extends React.Component {
     });
   };
 
-  render() {
+  displayCode = () => {
+    //SHOW Script.content here?
+  }
+
+//assign code to the script content we have
+  render() {   
     const options = {
       lineNumbers: true,
-      mode: "jsx",
+      mode: "javascript",
       autoCloseBrackets: true,
       autoCloseTags: true,
       gutters: ["CodeMirror-lint-markers"],
@@ -44,6 +51,7 @@ export default class WorkingBox extends React.Component {
     }
 
     return (
+
       <Container
         style={{
           resize: "both",
@@ -57,7 +65,12 @@ export default class WorkingBox extends React.Component {
           overflowY: "auto"
         }}
       >
-        <CodeMirror value="" options={options} />
+      
+       < CodeMirror value = { this.state.code === null ? this.state.initialValue : this.state.code}
+       options = {
+         options
+       }
+       />
       </Container>
     );
   }

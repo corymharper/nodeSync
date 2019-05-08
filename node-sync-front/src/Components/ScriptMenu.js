@@ -8,6 +8,7 @@ import {
   Icon,
   Modal
 } from "semantic-ui-react";
+import Moment from 'react-moment';
 import EditScriptForm from "./EditScriptForm";
 
 export default class ScriptMenu extends Component {
@@ -17,6 +18,12 @@ export default class ScriptMenu extends Component {
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
+
+  displayCode = (e, { name }) => {
+    this.setState({ activeItem: name });
+    //communicate with workingBox, show script.content inside workingbox
+    //render workingbox, set code value as script.content 
+  }
 
   render() {
     const { activeItem } = this.state;
@@ -43,7 +50,7 @@ export default class ScriptMenu extends Component {
               <Menu.Item
                 name={script.title}
                 active={activeItem === script.title}
-                onClick={this.handleItemClick}
+                onClick={this.displayCode}
               >
                 <Modal
                   trigger={
@@ -115,7 +122,7 @@ export default class ScriptMenu extends Component {
                       </Label>
                     </ListItem>
                     <ListItem style={{ color: "#898989" }}>
-                      <h5>7d</h5>
+                      <h5><Moment fromNow ago>{script.createdAt}</Moment></h5>
                     </ListItem>
                   </List>
                 </div>
