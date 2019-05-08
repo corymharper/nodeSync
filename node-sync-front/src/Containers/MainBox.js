@@ -66,7 +66,10 @@ export default class MainBox extends React.Component {
           updateMainBox={this.updateMainBox}
           setActiveScript={this.setActiveScript}
         />
-        <WorkingBox scripts={this.state.scripts} users={this.state.users} />
+        <WorkingBox
+          users={this.state.users}
+          activeScript={this.state.activeScript}
+        />
       </div>
     );
   }

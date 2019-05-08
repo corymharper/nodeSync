@@ -1,7 +1,7 @@
 import React from "react";
 import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/jsx/jsx");
@@ -17,26 +17,27 @@ window.JSHINT = JSHINT;
 export default class WorkingBox extends React.Component {
   state = {
     scripts: [],
-    initialValue: '//Write your code here! For Example: \n const a = 0; \n const b = 1; \n const c = a + b;',
+    initialValue:
+      "//Write your code here! For Example: \n const a = 0; \n const b = 1; \n const c = a + b;",
     code: null
   };
 
   componentDidMount() {
-    this.setState({ scripts: this.props.scripts });
+    this.setState({ activeScript: this.props.activeScript });
   }
 
   handleCodeChange = newCode => {
     this.setState({
-      scripts: newCode
+      activeScript: newCode
     });
   };
 
   displayCode = () => {
     //SHOW Script.content here?
-  }
+  };
 
-//assign code to the script content we have
-  render() {   
+  //assign code to the script content we have
+  render() {
     const options = {
       lineNumbers: true,
       mode: "javascript",
@@ -51,7 +52,6 @@ export default class WorkingBox extends React.Component {
     }
 
     return (
-
       <Container
         style={{
           resize: "both",
@@ -65,12 +65,12 @@ export default class WorkingBox extends React.Component {
           overflowY: "auto"
         }}
       >
-      
-       < CodeMirror value = { this.state.code === null ? this.state.initialValue : this.state.code}
-       options = {
-         options
-       }
-       />
+        <CodeMirror
+          value={
+            this.state.code === null ? this.state.initialValue : this.state.code
+          }
+          options={options}
+        />
       </Container>
     );
   }

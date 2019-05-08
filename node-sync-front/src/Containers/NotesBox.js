@@ -13,7 +13,6 @@ import NewScriptForm from "../Components/NewScriptForm";
 
 export default class NotesBox extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <Container
         style={{

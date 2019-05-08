@@ -29,8 +29,6 @@ export default class ScriptMenu extends Component {
 
   render() {
     const { activeItem } = this.state;
-    console.log(this.props.scripts);
-    console.log(this.state.reverseScripts);
 
     return (
       <Menu
