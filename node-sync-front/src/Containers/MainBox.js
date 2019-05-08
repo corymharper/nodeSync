@@ -15,7 +15,8 @@ export default class MainBox extends React.Component {
   state = {
     scripts: [],
     users: [],
-    activeScript: null
+    activeScript: null,
+    filtered: []
   };
 
   componentDidMount() {
@@ -111,6 +112,23 @@ export default class MainBox extends React.Component {
     console.log(this.state);
   };
 
+  handleCategories =(e, { name }) => {
+    //add methods to show filtered array in NotesBox->ScriptMenu
+    let filteredArray = this.state.scripts.filter(script => (script.category === name))
+    this.setState({ filtered: filteredArray})
+  };
+
+  handleLanguages =(e, { name }) => {
+    //add methods to show filtered array in NotesBox->ScriptMenu
+    let filteredArray = this.state.scripts.filter(script => (script.language === name))
+    this.setState({ filtered: filteredArray})
+  };
+
+  handleAllScripts =(e, { name }) => {
+    //add methods to show all scripts in NotesBox->ScriptMenu
+    this.setState({ filtered: this.state.scripts})
+  }
+    
   saveLocalActiveScriptContent = newContent => {
     console.log("test 1");
     this.setState({
@@ -133,12 +151,21 @@ export default class MainBox extends React.Component {
         style={{ color: "#898989" }}
         onClick={this.checkState}
       >
-        <Nav hideMainBox={this.props.hideMainBox} />
+        <Nav 
+          hideMainBox={this.props.hideMainBox} 
+          scripts = {this.state.scripts} 
+          handleCategories ={this.handleCategories} 
+          handleLanguages={this.handleLanguages}
+          handleAllScripts={this.handleAllScripts}
+          handleSearchChange={this.handleSearchChange}
+          filtered ={this.state.filtered}
+        />
         <NotesBox
           scripts={this.state.scripts}
           users={this.state.users}
           updateMainBox={this.updateMainBox}
           setActiveScript={this.setActiveScript}
+          filtered={this.state.filtered}
           activeScript={this.state.activeScript}
         />
         <WorkingBox
