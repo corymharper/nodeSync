@@ -70,7 +70,7 @@ export default class MainBox extends React.Component {
     //add methods to show all scripts in NotesBox->ScriptMenu
     this.setState({ filtered: this.state.scripts})
   };
-  
+
   render() {
     return (
       <div
@@ -84,6 +84,7 @@ export default class MainBox extends React.Component {
           handleCategories ={this.handleCategories} 
           handleLanguages={this.handleLanguages}
           handleAllScripts={this.handleAllScripts}
+          handleSearchChange={this.handleSearchChange}
           filtered ={this.state.filtered}
         />
         <NotesBox

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dropdown, Icon, Input, Menu } from "semantic-ui-react";
+import { Dropdown, Icon, Input, Menu, Search } from "semantic-ui-react";
 
 export default class MenuSpace extends Component {
   state = {};
@@ -42,10 +42,9 @@ export default class MenuSpace extends Component {
   }
 
   render() {
-    console.log(this.getUniqueCategories())
-    console.log(this.getUniqueLanguages())
+
     const { activeItem } = this.state;
-    
+
     return (
       <Menu
         inverted
@@ -136,12 +135,7 @@ export default class MenuSpace extends Component {
         <Menu.Item active={activeItem === "logout"} onClick={this.handleLogOut}>
           Log Out
         </Menu.Item>
-        <Menu.Item
-          active={activeItem === "golive"}
-          onClick={() => window.TogetherJS(window)}
-        >
-          Go Live
-        </Menu.Item>
+      
       </Menu>
     );
   }
