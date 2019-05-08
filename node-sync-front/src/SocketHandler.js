@@ -23,4 +23,8 @@ export default class SocketHandler {
 
     this.io.on(emitType, callback);
   };
+
+  static emit = (emitType, payload) => {
+      this.io.emit(emitType, payload)
+  };
 }

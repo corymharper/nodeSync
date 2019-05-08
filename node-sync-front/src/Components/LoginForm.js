@@ -8,7 +8,7 @@ import {
   Header,
   Icon
 } from "semantic-ui-react";
-import Typist from 'react-typist';
+import Typist from "react-typist";
 import "react-typist/dist/Typist.css";
 
 export default class LoginForm extends React.Component {
@@ -131,7 +131,14 @@ export default class LoginForm extends React.Component {
                 icon
               >
                 <Icon name="sync alternate" />
-                < Typist className = "MyTypist" avgTypingDelay={70} avgTypingSpeed={40} startDelay={2000}>NodeSync< /Typist >
+                <Typist
+                  className="MyTypist"
+                  avgTypingDelay={70}
+                  avgTypingSpeed={40}
+                  startDelay={2000}
+                >
+                  nodeSync
+                </Typist>
                 <Header.Subheader
                   style={{ color: "#8c8c8c", fontSize: "14px" }}
                 >

@@ -7,6 +7,9 @@ import SignUpForm from "./Components/SignUpForm";
 import { ifError } from "assert";
 import { BrowserRouter, Router, Switch } from "react-router-dom";
 
+const fetchUrl = "http://10.185.4.241:3000";
+const socketUrl = "http://10.185.4.241:8080";
+
 export default class App extends React.Component {
   state = { mainbox: false, signup: false };
 
@@ -19,7 +22,7 @@ export default class App extends React.Component {
   };
 
   hideMainBox = () => {
-    this.setState({ mainbox: false });
+    this.setState({ mainbox: false, signup: false });
   };
 
   conditionalRender() {
@@ -32,7 +35,12 @@ export default class App extends React.Component {
           />
         );
       } else {
-        return <SignUpForm renderMainBox={this.renderMainBox} />;
+        return (
+          <SignUpForm
+            renderMainBox={this.renderMainBox}
+            hideMainBox={this.hideMainBox}
+          />
+        );
       }
     } else {
       return <MainBox hideMainBox={this.hideMainBox} />;

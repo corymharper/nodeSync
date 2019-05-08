@@ -1,7 +1,9 @@
 import React from "react";
 import { JSHINT } from "jshint";
 import { Container } from "semantic-ui-react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
+import DiffMatchPatch from "diff-match-patch";
+import socketIO from "socket.io-client";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import SocketHandler from "../SocketHandler";
 require("codemirror/mode/javascript/javascript");
 require("codemirror/mode/jsx/jsx");
@@ -13,30 +15,36 @@ require("codemirror/addon/lint/lint");
 require("codemirror/addon/lint/javascript-lint");
 
 window.JSHINT = JSHINT;
+const dmp = new DiffMatchPatch();
+let diff;
+let patch;
+let applyPatch;
 
 export default class WorkingBox extends React.Component {
   state = {
-    scripts: [],
-    initialValue: '//Write your code here! For Example: \n const a = 0; \n const b = 1; \n const c = a + b;',
-    code: null
+    activeScript: this.props.activeScript,
+    value: this.props.activeScript ? this.props.activeScript.content : ""
   };
-
   componentDidMount() {
-    this.setState({ scripts: this.props.scripts });
-  }
-
-  handleCodeChange = newCode => {
-    this.setState({
-      scripts: newCode
+    SocketHandler.registerSocketListener("client.update", serverText => {
+      diff = dmp.diff_main(this.state.value, serverText);
+      patch = dmp.patch_make(this.state.value, diff);
+      applyPatch = dmp.patch_apply(patch, this.state.value);
+      this.setState({
+        value: applyPatch[0]
+      });
+      console.log(applyPatch[0]);
+      this.props.saveLocalActiveScriptContent(applyPatch[0]);
     });
-  };
 
-  displayCode = () => {
-    //SHOW Script.content here?
+    this.setState({
+      activeScript: this.props.activeScript,
+      value: this.props.activeScript ? this.props.activeScript.content : ""
+    });
   }
 
-//assign code to the script content we have
-  render() {   
+  //assign code to the script content we have
+  render() {
     const options = {
       lineNumbers: true,
       mode: "javascript",
@@ -51,7 +59,6 @@ export default class WorkingBox extends React.Component {
     }
 
     return (
-
       <Container
         style={{
           resize: "both",
@@ -65,12 +72,30 @@ export default class WorkingBox extends React.Component {
           overflowY: "auto"
         }}
       >
-      
-       < CodeMirror value = { this.state.code === null ? this.state.initialValue : this.state.code}
-       options = {
-         options
-       }
-       />
+        <CodeMirror
+          value={this.state.value}
+          options={options}
+          onBeforeChange={(editor, data, value) => {
+            diff = dmp.diff_main(this.state.value, value);
+            patch = dmp.patch_make(this.state.value, diff);
+            applyPatch = dmp.patch_apply(patch, this.state.value);
+            SocketHandler.emit("editor.update", patch);
+            console.log("we made it here");
+            this.setState({
+              value: applyPatch[0]
+            });
+            this.props.saveLocalActiveScriptContent(applyPatch[0]);
+          }}
+          editorDidMount={editor => {
+            this.setState({
+              ...this.state,
+              instance: editor
+            });
+          }}
+          // onChange={(editor, data, value) => {
+          //   console.log(value);
+          // }}
+        />
       </Container>
     );
   }

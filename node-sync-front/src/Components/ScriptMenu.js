@@ -43,7 +43,6 @@ export default class ScriptMenu extends Component {
           top: "0%",
           margin: "0px"
         }}
-        onClick={this.checkProps}
       >
         {this.state.displayedScripts
           .slice()
@@ -51,10 +50,10 @@ export default class ScriptMenu extends Component {
           .map(script => {
             return (
               <Menu.Item
-                id = {script.id}
+                id={script.id}
                 name={script.title}
-                active={activeItem === script.title}
-                onClick={this.displayCode}
+                active={activeItem === script.id}
+                onClick={() => this.handleItemClick(script)}
               >
                 <Modal
                   trigger={

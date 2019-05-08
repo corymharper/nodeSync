@@ -6,8 +6,12 @@ import SocketHandler from "../SocketHandler";
 
 import socketIO from "socket.io-client";
 
-// const io = socketIO("http://localhost:8080/");
 export default class MainBox extends React.Component {
+  constructor() {
+    super();
+    SocketHandler.connect(localStorage.getItem("token"));
+  }
+
   state = {
     scripts: [],
     users: [],
@@ -21,6 +25,9 @@ export default class MainBox extends React.Component {
       .then(data => {
         console.log(data);
         this.setState({ scripts: data });
+      })
+      .then(() => {
+        this.setState({ activeScript: this.state.scripts.slice(-1)[0] });
       });
 
     fetch("http://localhost:3001/users")
@@ -30,30 +37,62 @@ export default class MainBox extends React.Component {
         this.setState({ users: data });
       });
 
-    SocketHandler.connect(localStorage.getItem("token"));
+    // SocketHandler.connect(localStorage.getItem("token"));
 
-    SocketHandler.registerSocketListener("scriptCreated", newScript => {
+    SocketHandler.registerSocketListener("scriptCreated", savedScript => {
       console.log("success!");
       this.setState({
-        scripts: [...this.state.scripts, newScript],
-        activeScript: newScript
+        scripts: [...this.state.scripts, savedScript],
+        activeScript: savedScript
+      });
+      SocketHandler.emit("activeScriptChange", {
+        userid: localStorage.getItem("userid"),
+        activeScript: savedScript
       });
     });
+
+    SocketHandler.registerSocketListener("activeScriptChanged", user => {
+      this.setState({
+        users: this.state.users.map(u => {
+          if (u.id === user.id) {
+            return { ...u, activeScript_id: user.activeScript_id };
+          } else {
+            return u;
+          }
+        })
+      });
+    });
+
+    // SocketHandler.registerSocketListener("activeScript.updated", script => {
+    //   this.setState({
+    //     users: this.state.scripts.map(s => {
+    //       if (s.id === script.id) {
+    //         return { ...s, content: script.content };
+    //       } else {
+    //         return s;
+    //       }
+    //     })
+    //   });
+    // });
   }
 
   updateMainBox = () => {
     this.forceUpdate();
   };
 
-  setActiveScript = id => {
-    this.setState({ activeScript: id });
-    this.forceUpdate();
+  setActiveScript = script => {
+    this.setState({ activeScript: script });
+    SocketHandler.emit("activeScriptChange", {
+      userid: localStorage.getItem("userid"),
+      activeScript: script
+    });
   };
 
   checkState = () => {
     console.log(this.state);
   };
 
+<<<<<<< HEAD
   handleCategories =(e, { name }) => {
     //add methods to show filtered array in NotesBox->ScriptMenu
     let filteredArray = this.state.scripts.filter(script => (script.category === name))
@@ -69,6 +108,21 @@ export default class MainBox extends React.Component {
   handleAllScripts =(e, { name }) => {
     //add methods to show all scripts in NotesBox->ScriptMenu
     this.setState({ filtered: this.state.scripts})
+=======
+  saveLocalActiveScriptContent = newContent => {
+    console.log("test 1");
+    this.setState({
+      scripts: this.state.scripts.map(s => {
+        if (s.id === this.state.activeScript.id) {
+          console.log("test 2");
+          return { ...s, content: newContent };
+        } else {
+          return s;
+        }
+      }),
+      activeScript: { ...this.state.activeScript, content: newContent }
+    });
+>>>>>>> bb647eb885d7460edee68b5268aeca1222ffa4af
   };
 
   render() {
@@ -92,9 +146,18 @@ export default class MainBox extends React.Component {
           users={this.state.users}
           updateMainBox={this.updateMainBox}
           setActiveScript={this.setActiveScript}
+<<<<<<< HEAD
           filtered={this.state.filtered}
+=======
+          activeScript={this.state.activeScript}
         />
-        <WorkingBox scripts={this.state.scripts} users={this.state.users} />
+        <WorkingBox
+          users={this.state.users}
+          activeScript={this.state.activeScript}
+          saveLocalActiveScriptContent={this.saveLocalActiveScriptContent}
+          key={this.state.activeScript ? this.state.activeScript.id : null}
+>>>>>>> bb647eb885d7460edee68b5268aeca1222ffa4af
+        />
       </div>
     );
   }

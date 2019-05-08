@@ -135,7 +135,10 @@ export default class MenuSpace extends Component {
         <Menu.Item active={activeItem === "logout"} onClick={this.handleLogOut}>
           Log Out
         </Menu.Item>
+<<<<<<< HEAD
       
+=======
+>>>>>>> bb647eb885d7460edee68b5268aeca1222ffa4af
       </Menu>
     );
   }

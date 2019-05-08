@@ -5,6 +5,7 @@
   "dependencies": {
     "codemirror": "^5.46.0",
     "codemirror-ot": "^2.1.0",
+    "diff-match-patch": "^1.0.4",
     "jshint": "^2.10.2",
     "moment": "^2.24.0",
     "moment-shortformat": "^2.1.0",

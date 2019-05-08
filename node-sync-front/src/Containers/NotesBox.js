@@ -13,7 +13,6 @@ import NewScriptForm from "../Components/NewScriptForm";
 
 export default class NotesBox extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <Container
         style={{
@@ -60,7 +59,7 @@ export default class NotesBox extends React.Component {
             <Modal.Header>Create a New Script</Modal.Header>
             <Modal.Content scrolling>
               <Modal.Description>
-                <NewScriptForm setActiveScript={this.props.setActiveScript} />
+                <NewScriptForm />
               </Modal.Description>
             </Modal.Content>
             {/* <Modal.Actions>
@@ -77,6 +76,8 @@ export default class NotesBox extends React.Component {
           scripts={this.props.scripts}
           updateMainBox={this.props.updateMainBox}
           filtered = {this.props.filtered}
+          setActiveScript={this.props.setActiveScript}
+          activeScript={this.props.activeScript}
         />
       </Container>
     );

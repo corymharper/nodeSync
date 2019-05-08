@@ -50,6 +50,9 @@ User.init(
     },
     password_digest: {
       type: Sequelize.STRING
+    },
+    activeScript_id: {
+      type: Sequelize.INTEGER
     }
   },
   {
