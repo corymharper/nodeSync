@@ -39,11 +39,8 @@ export default class NotesBox extends React.Component {
         </div>
         <ScriptMenu
           scripts={this.props.scripts}
-<<<<<<< HEAD
-=======
           updateMainBox={this.props.updateMainBox}
-          filtered = {this.props.filtered}
->>>>>>> 9814b863deae50a2ef9e64dfdf367da0089809ae
+          filtered={this.props.filtered}
           setActiveScript={this.props.setActiveScript}
           activeScript={this.props.activeScript}
         />
