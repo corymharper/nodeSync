@@ -35,46 +35,10 @@ export default class NotesBox extends React.Component {
             borderBottom: "solid black 1px"
           }}
         >
-          <Modal
-            trigger={
-              <Button
-                style={{
-                  position: "absolute",
-                  top: "20%",
-                  bottom: "20%",
-                  right: "7px",
-                  padding: "5px",
-                  width: "30px",
-                  height: "30px",
-                  margin: "0px",
-                  backgroundColor: "#898989"
-                }}
-                icon
-              >
-                <Icon name="edit" />
-              </Button>
-            }
-            blurring
-          >
-            <Modal.Header>Create a New Script</Modal.Header>
-            <Modal.Content scrolling>
-              <Modal.Description>
-                <NewScriptForm />
-              </Modal.Description>
-            </Modal.Content>
-            {/* <Modal.Actions>
-              <Button primary>
-                Proceed <Icon name="chevron right" />
-              </Button>
-            </Modal.Actions> */}
-          </Modal>
+          <NewScriptForm scripts={this.props.scripts} />
         </div>
-        {/* {this.props.scripts.map(script => {
-          return <Preview {...script} />;
-        })} */}
         <ScriptMenu
           scripts={this.props.scripts}
-          updateMainBox={this.props.updateMainBox}
           setActiveScript={this.props.setActiveScript}
           activeScript={this.props.activeScript}
         />

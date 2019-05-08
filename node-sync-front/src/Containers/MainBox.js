@@ -62,6 +62,26 @@ export default class MainBox extends React.Component {
       });
     });
 
+    SocketHandler.registerSocketListener("script.edited", editedScript => {
+      this.setState({
+        scripts: this.state.scripts.map(script => {
+          if (script.id === editedScript.id) {
+            return editedScript;
+          } else {
+            return script;
+          }
+        })
+      });
+    });
+
+    SocketHandler.registerSocketListener("script.deleted", deletedScript => {
+      this.setState({
+        scripts: this.state.scripts.filter(script => {
+          return script.id !== deletedScript.id;
+        })
+      });
+    });
+
     // SocketHandler.registerSocketListener("activeScript.updated", script => {
     //   this.setState({
     //     users: this.state.scripts.map(s => {

@@ -49,34 +49,8 @@ export default class ScriptMenu extends Component {
                 active={activeItem === script.id}
                 onClick={() => this.handleItemClick(script)}
               >
-                <Modal
-                  trigger={
-                    <Icon
-                      style={{
-                        position: "absolute",
-                        top: "10%",
-                        right: "0%",
-                        color: "#898989"
-                      }}
-                      name="ellipsis vertical"
-                    />
-                  }
-                  blurring
-                >
-                  <Modal.Header>Edit Script</Modal.Header>
-                  <Modal.Content scrolling>
-                    <Modal.Description>
-                      <EditScriptForm
-                        updateMainBox={this.props.updateMainBox}
-                      />
-                    </Modal.Description>
-                  </Modal.Content>
-                  {/* <Modal.Actions>
-              <Button primary>
-                Proceed <Icon name="chevron right" />
-              </Button>
-            </Modal.Actions> */}
-                </Modal>
+                <EditScriptForm scripts={this.props.scripts} script={script} />
+
                 <div
                   style={{
                     position: "absolute",
