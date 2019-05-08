@@ -16,15 +16,20 @@ import EditScriptForm from "./EditScriptForm";
 export default class ScriptMenu extends Component {
   state = {
     activeItem: "home",
-    reverseScripts: this.props.scripts.slice().reverse()
+    displayedScripts: []
   };
 
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
 
+  static getDerivedStateFromProps(props, state){
+    return {
+      displayedScripts: props.filtered.length === 0 ? props.scripts : props.filtered
+    }
+  }
+
   render() {
     const { activeItem } = this.state;
     console.log(this.props.scripts);
-    console.log(this.state.reverseScripts);
 
     let moment = require('moment-shortformat');
 
@@ -40,7 +45,7 @@ export default class ScriptMenu extends Component {
         }}
         onClick={this.checkProps}
       >
-        {this.props.scripts
+        {this.state.displayedScripts
           .slice()
           .reverse()
           .map(script => {
