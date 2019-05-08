@@ -92,7 +92,6 @@ export default class MainBox extends React.Component {
     console.log(this.state);
   };
 
-<<<<<<< HEAD
   handleCategories =(e, { name }) => {
     //add methods to show filtered array in NotesBox->ScriptMenu
     let filteredArray = this.state.scripts.filter(script => (script.category === name))
@@ -108,7 +107,8 @@ export default class MainBox extends React.Component {
   handleAllScripts =(e, { name }) => {
     //add methods to show all scripts in NotesBox->ScriptMenu
     this.setState({ filtered: this.state.scripts})
-=======
+  }
+    
   saveLocalActiveScriptContent = newContent => {
     console.log("test 1");
     this.setState({
@@ -122,7 +122,6 @@ export default class MainBox extends React.Component {
       }),
       activeScript: { ...this.state.activeScript, content: newContent }
     });
->>>>>>> bb647eb885d7460edee68b5268aeca1222ffa4af
   };
 
   render() {
@@ -146,9 +145,7 @@ export default class MainBox extends React.Component {
           users={this.state.users}
           updateMainBox={this.updateMainBox}
           setActiveScript={this.setActiveScript}
-<<<<<<< HEAD
           filtered={this.state.filtered}
-=======
           activeScript={this.state.activeScript}
         />
         <WorkingBox
@@ -156,7 +153,6 @@ export default class MainBox extends React.Component {
           activeScript={this.state.activeScript}
           saveLocalActiveScriptContent={this.saveLocalActiveScriptContent}
           key={this.state.activeScript ? this.state.activeScript.id : null}
->>>>>>> bb647eb885d7460edee68b5268aeca1222ffa4af
         />
       </div>
     );
