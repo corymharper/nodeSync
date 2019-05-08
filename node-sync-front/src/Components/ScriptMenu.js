@@ -12,12 +12,7 @@ import Moment from "react-moment";
 import EditScriptForm from "./EditScriptForm";
 
 export default class ScriptMenu extends Component {
-  state = {
-    activeItem: "home"
-  };
-
   handleItemClick = script => {
-    this.setState({ activeItem: script.title });
     this.props.setActiveScript(script);
   };
 
@@ -28,7 +23,9 @@ export default class ScriptMenu extends Component {
   // }
 
   render() {
-    const { activeItem } = this.state;
+    const activeItem = this.props.activeScript
+      ? this.props.activeScript.id
+      : null;
 
     return (
       <Menu
@@ -49,7 +46,7 @@ export default class ScriptMenu extends Component {
               <Menu.Item
                 id={script.id}
                 name={script.title}
-                active={activeItem === script.title}
+                active={activeItem === script.id}
                 onClick={() => this.handleItemClick(script)}
               >
                 <Modal

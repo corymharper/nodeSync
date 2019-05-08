@@ -76,6 +76,7 @@ export default class NotesBox extends React.Component {
           scripts={this.props.scripts}
           updateMainBox={this.props.updateMainBox}
           setActiveScript={this.props.setActiveScript}
+          activeScript={this.props.activeScript}
         />
       </Container>
     );

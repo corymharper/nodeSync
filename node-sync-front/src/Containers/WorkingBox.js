@@ -15,7 +15,6 @@ require("codemirror/addon/lint/lint");
 require("codemirror/addon/lint/javascript-lint");
 
 window.JSHINT = JSHINT;
-SocketHandler.connect(localStorage.getItem("token"));
 const dmp = new DiffMatchPatch();
 let diff;
 let patch;
@@ -23,34 +22,26 @@ let applyPatch;
 
 export default class WorkingBox extends React.Component {
   state = {
-    scripts: [],
-    value: "",
-    code: null
+    activeScript: this.props.activeScript,
+    value: this.props.activeScript ? this.props.activeScript.content : ""
   };
-
   componentDidMount() {
-    this.setState({ scripts: this.props.scripts });
-    SocketHandler.registerSocketListener("client.update", payload => {
-      console.log("we are in here");
-      diff = dmp.diff_main(this.state.value, payload);
+    SocketHandler.registerSocketListener("client.update", serverText => {
+      diff = dmp.diff_main(this.state.value, serverText);
       patch = dmp.patch_make(this.state.value, diff);
       applyPatch = dmp.patch_apply(patch, this.state.value);
       this.setState({
-        ...this.state,
         value: applyPatch[0]
       });
+      console.log(applyPatch[0]);
+      this.props.saveLocalActiveScriptContent(applyPatch[0]);
+    });
+
+    this.setState({
+      activeScript: this.props.activeScript,
+      value: this.props.activeScript ? this.props.activeScript.content : ""
     });
   }
-
-  handleCodeChange = newCode => {
-    this.setState({
-      activeScript: newCode
-    });
-  };
-
-  displayCode = () => {
-    //SHOW Script.content here?
-  };
 
   //assign code to the script content we have
   render() {
@@ -91,9 +82,9 @@ export default class WorkingBox extends React.Component {
             SocketHandler.emit("editor.update", patch);
             console.log("we made it here");
             this.setState({
-              ...this.state,
               value: applyPatch[0]
             });
+            this.props.saveLocalActiveScriptContent(applyPatch[0]);
           }}
           editorDidMount={editor => {
             this.setState({
@@ -101,9 +92,9 @@ export default class WorkingBox extends React.Component {
               instance: editor
             });
           }}
-          onChange={(editor, data, value) => {
-            console.log(value);
-          }}
+          // onChange={(editor, data, value) => {
+          //   console.log(value);
+          // }}
         />
       </Container>
     );

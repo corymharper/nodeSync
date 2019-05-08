@@ -6,8 +6,8 @@ const socketIo = require("socket.io");
 const User = require("./models/User");
 const Script = require("./models/Script");
 const UserScript = require("./models/UserScript");
-const diffMatchPatch = require('diff-match-patch')
-let serverText = ""
+const diffMatchPatch = require("diff-match-patch");
+let serverText = "";
 const dmp = new diffMatchPatch();
 
 //SOCKET.IO
@@ -15,7 +15,7 @@ const io = socketIo(8080, {
   handlePreflightRequest: function(req, res) {
     let headers = {
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": "http://10.185.4.241:3000",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
       "Access-Control-Allow-Credentials": true
     };
     res.writeHead(200, headers);
@@ -67,7 +67,7 @@ io.on("connection", socket => {
       respond(userScripts);
     });
   });
-  
+
   socket.on("userScripts.update", async params => {
     let userScript = await UserScript.findByPk(params.id);
     await userScript.update(params);
@@ -75,11 +75,25 @@ io.on("connection", socket => {
     io.emit("userScripts.update", userScripts);
   });
 
-  socket.on('editor.update', payload => {
-    console.log('we are in here')
-    serverText = dmp.patch_apply(payload, serverText)[0]
-    io.emit("client.update", serverText)
+  socket.on("editor.update", patch => {
+    serverText = dmp.patch_apply(patch, serverText)[0];
+    socket.broadcast.emit("client.update", serverText);
   });
+
+  socket.on("activeScriptChange", async payload => {
+    serverText = payload.activeScript.content;
+    let user = await User.findByPk(payload.userid);
+    await user.update({ activeScript_id: payload.activeScript.id });
+    io.emit("activeScriptChanged", user);
+  });
+
+  // socket.on("activeScript.update", async payload => {
+  //   let script = await Script.findByPk(payload.activeScript.id);
+  //   // console.log(script);
+  //   await script.update({ content: payload.value });
+  //   // console.log(script);
+  //   io.emit("activeScript.updated", script);
+  // });
 });
 
 //EXPRESS: npm packages
@@ -153,19 +167,21 @@ app.post("/scripts", (req, res) => {
   let newScript = Script.build();
   //set up properties
   newScript.title = req.body.title;
-  // newScript.content = req.body.content
+  newScript.content = "//start typing your new script here...";
   newScript.language = req.body.language;
   newScript.category = req.body.category;
   //save newScript to database
   newScript
     .save()
     //link script to specific user
-    .then(newScript => res.json(newScript));
-  User.findByPk(req.body.userid).then(user => {
-    user.addScript(newScript, { through: { role: "owner" } });
-  });
-  console.log("is this reachable?");
-  io.emit("scriptCreated", newScript);
+    .then(savedScript => {
+      User.findByPk(req.body.userid).then(user => {
+        user.addScript(savedScript, { through: { role: "owner" } });
+      });
+      console.log(savedScript);
+      io.emit("scriptCreated", savedScript);
+      res.status(200);
+    });
 });
 
 app.patch("/scripts/:id", async (req, res) => {
