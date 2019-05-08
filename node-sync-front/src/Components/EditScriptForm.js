@@ -32,10 +32,9 @@ export default class EditScriptForm extends React.Component {
   };
 
   fetchData = () => {
-    console.log("function is running");
     //fetch url to be fixed
     //this component's props do not include scripts
-    fetch(`http://localhost:3001/scripts/${this.props.script.id}`, {
+    fetch(`${process.env.REACT_APP_FETCH_URL}/scripts/${this.props.script.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -50,9 +49,8 @@ export default class EditScriptForm extends React.Component {
   };
 
   deleteScript = () => {
-    console.log("function is running");
     //fetch url to be fixed
-    fetch(`http://localhost:3001/scripts/${this.props.script.id}`, {
+    fetch(`${process.env.REACT_APP_FETCH_URL}/scripts/${this.props.script.id}`, {
       method: "DELETE"
       // headers: {
       //   "Content-Type": "application/json"

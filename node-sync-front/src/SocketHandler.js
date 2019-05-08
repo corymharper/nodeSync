@@ -5,7 +5,7 @@ export default class SocketHandler {
 
   static connect = token => {
     console.log("WS connecting...");
-    this.io = socketIO("http://localhost:8080/", {
+    this.io = socketIO(`${process.env.REACT_APP_SOCKET_URL}`, {
       transportOptions: {
         polling: {
           //send extra headers to socket-io

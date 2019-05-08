@@ -26,7 +26,6 @@ export default class LoginForm extends React.Component {
   };
 
   handleClick = () => {
-    console.log("click");
     this.props.renderSignUp();
   };
 
@@ -53,7 +52,7 @@ export default class LoginForm extends React.Component {
   };
 
   fetchData = () => {
-    fetch("http://localhost:3001/login", {
+    fetch(`${process.env.REACT_APP_FETCH_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -65,12 +64,10 @@ export default class LoginForm extends React.Component {
     })
       .then(res => res.json())
       .then(user => {
-        console.log(user);
         //to make sessions
         localStorage.setItem("username", user.username);
         localStorage.setItem("userid", user.id);
         localStorage.setItem("token", user.token);
-        console.log(localStorage);
         //call render mainbox
         this.props.renderMainBox();
       });

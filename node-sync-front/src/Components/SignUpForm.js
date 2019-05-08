@@ -85,7 +85,7 @@ export default class SignUpForm extends React.Component {
 
   fetchData = () => {
     console.log("function is running");
-    fetch("http://localhost:3001/users", {
+    fetch(`${process.env.REACT_APP_FETCH_URL}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

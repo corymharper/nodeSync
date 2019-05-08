@@ -15,7 +15,7 @@ const io = socketIo(8080, {
   handlePreflightRequest: function(req, res) {
     let headers = {
       "Access-Control-Allow-Headers": "Content-Type, Authorization",
-      "Access-Control-Allow-Origin": "http://10.185.4.241:3000",
+      "Access-Control-Allow-Origin": `${process.env.REACT_APP_ENTRY_URL}`,
       "Access-Control-Allow-Credentials": true
     };
     res.writeHead(200, headers);
@@ -76,9 +76,12 @@ io.on("connection", socket => {
   });
 
   socket.on('editor.update', payload => {
-    console.log('we are in here')
-    serverText = dmp.patch_apply(payload, serverText)[0]
-    io.emit("client.update", serverText)
+    serverText = dmp.patch_apply(payload.patch, serverText)[0]
+    socket.broadcast.emit("client.update", {
+      serverText: serverText,
+      changeData: payload.changeData,
+      id: payload.id
+    })
   });
 });
 
@@ -129,9 +132,7 @@ app.patch("/users/:id", async (req, res) => {
 
 app.delete("/users/:id", async (req, res) => {
   let user = await User.findByPk(req.params.id);
-  console.log(user);
   user.destroy(req.body);
-  console.log("This user is deleted");
 });
 
 //http methods for script model, API
@@ -164,7 +165,6 @@ app.post("/scripts", (req, res) => {
   User.findByPk(req.body.userid).then(user => {
     user.addScript(newScript, { through: { role: "owner" } });
   });
-  console.log("is this reachable?");
   io.emit("scriptCreated", newScript);
 });
 
@@ -175,9 +175,7 @@ app.patch("/scripts/:id", async (req, res) => {
 
 app.delete("/scripts/:id", async (req, res) => {
   let script = await Script.findByPk(req.params.id);
-  console.log(script);
   script.destroy();
-  console.log("This script is deleted");
 });
 
 //http methods for userScript model, API
@@ -210,7 +208,6 @@ app.post("/login", (req, res) => {
       username: req.body.username
     }
   }).then(user => {
-    console.log(user);
     if (user.authenticate(req.body.password)) {
       res.json(user);
     }

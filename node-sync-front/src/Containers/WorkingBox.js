@@ -25,20 +25,28 @@ export default class WorkingBox extends React.Component {
   state = {
     scripts: [],
     value: "",
-    code: null
   };
 
   componentDidMount() {
     this.setState({ scripts: this.props.scripts });
     SocketHandler.registerSocketListener('client.update', payload => {
+      if(localStorage.getItem("userid") != payload.id){
+      let cursPos = this.state.instance.getCursor()
       console.log('we are in here')
-      diff = dmp.diff_main(this.state.value, payload)
+      diff = dmp.diff_main(this.state.value, payload.serverText)
       patch = dmp.patch_make(this.state.value, diff)
       applyPatch = dmp.patch_apply(patch, this.state.value)
       this.setState({
           ...this.state,
           value: applyPatch[0],
       });
+      console.log(cursPos.line, payload.changeData.from.line, cursPos.ch, payload.changeData.from.ch)
+      if(cursPos.line >= payload.changeData.from.line && cursPos.ch > payload.changeData.from.ch){
+        this.state.instance.setCursor({line: cursPos.line + payload.changeData.text.length - 1, ch: payload.changeData.text[payload.changeData.text.length-1] ? cursPos.ch + payload.changeData.text[payload.changeData.text.length-1].length : cursPos.ch - payload.changeData.text[payload.changeData.text.length-1].length - 1})
+      }
+    } else {
+      return
+    }
     });
   }
 
@@ -52,8 +60,20 @@ export default class WorkingBox extends React.Component {
     //SHOW Script.content here?
   }
 
+  setCursorPos = (lineNum, charNum, value) => {
+    switch(value){
+      case "{":
+        this.state.instance.setCursor({line: lineNum, ch: charNum + 2})
+        break;
+      case "(":
+        this.state.instance.setCursor({line: lineNum, ch: charNum + 2})
+        break;
+    }
+  }
+
 //assign code to the script content we have
-  render() {   
+  render() {  
+    console.log(localStorage.getItem("userid")) 
     const options = {
       lineNumbers: true,
       mode: "javascript",
@@ -86,16 +106,23 @@ export default class WorkingBox extends React.Component {
       <CodeMirror
         value={this.state.value}
         options={options}
+        autoCursor={false}
         onBeforeChange={(editor, data, value) => {
+            let cursPos = this.state.instance.getCursor()
             diff = dmp.diff_main(this.state.value, value)
             patch = dmp.patch_make(this.state.value, diff)
             applyPatch = dmp.patch_apply(patch, this.state.value)
-            SocketHandler.emit('editor.update', patch)
-            console.log('we made it here')
+            SocketHandler.emit('editor.update', {
+              changeData: data,
+              patch: patch,
+              id: localStorage.getItem("userid")
+              })
+            console.log(data)
             this.setState({
                 ...this.state,
                 value: applyPatch[0]
                 });
+                  this.state.instance.setCursor({line: cursPos.line + data.text.length - 1, ch: data.text[data.text.length-1] ? cursPos.ch + data.text[data.text.length-1].length : cursPos.ch - data.text[data.text.length-1].length - 1})
         }}
         editorDidMount={editor => { 
           this.setState({
@@ -105,7 +132,6 @@ export default class WorkingBox extends React.Component {
             }
         }
         onChange={(editor, data, value) => {
-            console.log(value)
         }}
       />
       </Container>

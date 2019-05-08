@@ -8,7 +8,7 @@ import { ifError } from "assert";
 import { BrowserRouter, Router, Switch } from "react-router-dom";
 
 
-const fetchUrl = "http://10.185.4.241:3000"
+const fetchUrl = "http://10.185.4.241:3001"
 const socketUrl = "http://10.185.4.241:8080"
 
 export default class App extends React.Component {

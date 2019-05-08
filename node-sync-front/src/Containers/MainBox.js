@@ -15,14 +15,14 @@ export default class MainBox extends React.Component {
   };
 
   componentDidMount() {
-    fetch(`http://localhost:3001/users/${localStorage.userid}/scripts`)
+    fetch(`${process.env.REACT_APP_FETCH_URL}/users/${localStorage.userid}/scripts`)
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
         this.setState({ scripts: data });
       });
 
-    fetch("http://localhost:3001/users")
+    fetch(`${process.env.REACT_APP_FETCH_URL}/users`)
       .then(resp => resp.json())
       .then(data => {
         console.log(data);
