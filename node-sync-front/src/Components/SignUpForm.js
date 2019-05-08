@@ -8,7 +8,8 @@ import {
   Header,
   Icon
 } from "semantic-ui-react";
-
+import Typist from 'react-typist';
+import "react-typist/dist/Typist.css";
 export default class SignUpForm extends React.Component {
   state = {
     firstName: "",
@@ -105,8 +106,6 @@ export default class SignUpForm extends React.Component {
         localStorage.setItem("username", user.username);
         localStorage.setItem("token", user.token);
         console.log(localStorage);
-        //use the user data to open up a socket connection
-
         this.props.renderMainBox();
       });
   };
@@ -153,7 +152,7 @@ export default class SignUpForm extends React.Component {
               <Header
                 as="div"
                 style={{
-                  fontSize: "30px",
+                  fontSize: "28px",
                   color: "#586e77",
                   position: "absolute",
                   height: "173px",
@@ -166,7 +165,7 @@ export default class SignUpForm extends React.Component {
                 icon
               >
                 <Icon name="sync alternate" />
-                NodeSync
+                < Typist className = "MyTypist" avgTypingDelay={70} avgTypingSpeed={40} startDelay={2000}>NodeSync< /Typist >
                 <Header.Subheader
                   style={{ color: "#8c8c8c", fontSize: "14px" }}
                 >

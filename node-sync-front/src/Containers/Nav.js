@@ -10,7 +10,8 @@ import {
   Dropdown
 } from "semantic-ui-react";
 import MenuSpace from "../Components/MenuSpace";
-
+import Typist from 'react-typist';
+import "react-typist/dist/Typist.css";
 export default class Nav extends React.Component {
   render() {
     return (
@@ -50,10 +51,11 @@ export default class Nav extends React.Component {
               position: "absolute",
               left: "30%",
               top: "40%",
-              fontSize: "16px"
+              fontSize: "16px",
+              fontWeight: "bold"
             }}
           >
-            NodeSync
+            < Typist className = "MyTypist" avgTypingDelay={70} avgTypingSpeed={40} startDelay={2000}>NodeSync< /Typist >
           </div>
           {/* <Button
             style={{

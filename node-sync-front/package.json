@@ -6,16 +6,21 @@
     "codemirror": "^5.46.0",
     "codemirror-ot": "^2.1.0",
     "jshint": "^2.10.2",
+    "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "ot": "0.0.15",
     "react": "^16.8.6",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.8.6",
+    "react-moment": "^0.9.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
+    "react-typist": "^2.0.5",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.86.0",
-    "socket.io-client": "^2.2.0"
+    "socket.io-client": "^2.2.0",
+    "typed.js": "^2.0.10"
   },
   "scripts": {
     "start": "react-scripts start",

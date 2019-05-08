@@ -13,6 +13,7 @@ import {
 // import { getEnabledCategories } from "trace_events";
 
 export default class EditScriptForm extends React.Component {
+  
   state = {
     title: "",
     language: "",
@@ -32,6 +33,8 @@ export default class EditScriptForm extends React.Component {
 
   fetchData = () => {
     console.log("function is running");
+    //fetch url to be fixed
+    //this component's props do not include scripts
     fetch(`http://localhost:3001/scripts/${this.props.script.id}`, {
       method: "PATCH",
       headers: {
@@ -48,13 +51,13 @@ export default class EditScriptForm extends React.Component {
 
   deleteScript = () => {
     console.log("function is running");
+    //fetch url to be fixed
     fetch(`http://localhost:3001/scripts/${this.props.script.id}`, {
       method: "DELETE"
       // headers: {
       //   "Content-Type": "application/json"
       // },
       // body: JSON.stringify({
-      //   //sending this.state
       //   title: this.state.title,
       //   language: this.state.language,
       //   category: this.state.category
