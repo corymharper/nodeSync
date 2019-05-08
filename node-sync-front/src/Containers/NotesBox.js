@@ -60,7 +60,7 @@ export default class NotesBox extends React.Component {
             <Modal.Header>Create a New Script</Modal.Header>
             <Modal.Content scrolling>
               <Modal.Description>
-                <NewScriptForm setActiveScript={this.props.setActiveScript} />
+                <NewScriptForm />
               </Modal.Description>
             </Modal.Content>
             {/* <Modal.Actions>
@@ -76,6 +76,7 @@ export default class NotesBox extends React.Component {
         <ScriptMenu
           scripts={this.props.scripts}
           updateMainBox={this.props.updateMainBox}
+          setActiveScript={this.props.setActiveScript}
         />
       </Container>
     );

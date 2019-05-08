@@ -44,9 +44,8 @@ export default class MainBox extends React.Component {
     this.forceUpdate();
   };
 
-  setActiveScript = id => {
-    this.setState({ activeScript: id });
-    this.forceUpdate();
+  setActiveScript = script => {
+    this.setState({ activeScript: script });
   };
 
   checkState = () => {
