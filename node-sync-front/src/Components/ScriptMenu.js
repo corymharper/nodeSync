@@ -48,6 +48,7 @@ export default class ScriptMenu extends Component {
           .map(script => {
             return (
               <Menu.Item
+                id = {script.id}
                 name={script.title}
                 active={activeItem === script.title}
                 onClick={this.displayCode}

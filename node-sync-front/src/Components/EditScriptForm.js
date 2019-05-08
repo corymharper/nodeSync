@@ -13,6 +13,7 @@ import {
 // import { getEnabledCategories } from "trace_events";
 
 export default class EditScriptForm extends React.Component {
+  
   state = {
     title: "",
     language: "",
@@ -33,6 +34,7 @@ export default class EditScriptForm extends React.Component {
   fetchData = () => {
     console.log("function is running");
     //fetch url to be fixed
+    //this component's props do not include scripts
     fetch(`http://localhost:3001/scripts/${this.props.script.id}`, {
       method: "PATCH",
       headers: {
