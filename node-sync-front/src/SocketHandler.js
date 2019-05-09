@@ -1,7 +1,7 @@
 import socketIO from "socket.io-client";
 
 export default class SocketHandler {
-  constructor() {}
+  // constructor() {}
 
   static connect = token => {
     console.log("WS connecting...");

@@ -23,15 +23,6 @@ export default class ScriptMenu extends Component {
     this.props.setActiveScript(script);
     this.props.handleCollaborators();
   }
-
-  // getCollaborators = (script) => {
-  //     fetch(`http://localhost:3001/scripts/${script.id}/users`)
-  //     .then(resp => resp.json())
-  //     .then(users => {
-  //       let collaborators = users.map(user => user.username)
-  //       this.setState({collaborators: collaborators})
-  //     })
-  // }
   
   static getDerivedStateFromProps(props, state) {
     return {
