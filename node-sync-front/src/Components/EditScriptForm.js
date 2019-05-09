@@ -18,8 +18,15 @@ export default class EditScriptForm extends React.Component {
     title: this.props.script.title,
     language: this.props.script.language,
     category: this.props.script.category,
-    open: false
+    open: false,
+    languageOptions: [
+      { key: "Ruby", text: "Ruby", value: "Ruby" },
+      { key: "Javascript", text: "Javascript", value: "Javascript" },
+      { key: "JSX", text: "JSX", value: "JSX" },
+      { key: "Python", text: "Python", value: "Python" }
+    ]
   };
+
 
   handleChange = event => {
     this.setState({
@@ -60,15 +67,6 @@ export default class EditScriptForm extends React.Component {
     });
   };
 
-  languageOptions = () => {
-    return [
-      { key: "Ruby", text: "Ruby", value: "Ruby" },
-      { key: "Javascript", text: "Javascript", value: "Javascript" },
-      { key: "JSX", text: "JSX", value: "JSX" },
-      { key: "Python", text: "Python", value: "Python" }
-    ];
-  };
-
   render() {
     return (
       <Modal
@@ -102,7 +100,6 @@ export default class EditScriptForm extends React.Component {
           </Button>
         </Modal.Header>
         <Modal.Content
-          small
           scrolling
           style={{
             backgroundColor: "#262626"
@@ -134,12 +131,12 @@ export default class EditScriptForm extends React.Component {
                   }
                   name="language"
                   id="language"
-                  onChange={e =>
+                  onChange={(e, { value }) =>
                     this.setState({
-                      language: e.target.querySelector("span").innerText
+                      language: value
                     })
                   }
-                  options={this.languageOptions()}
+                  options={this.state.languageOptions}
                 />
               </Form.Field>
 

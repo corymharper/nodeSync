@@ -19,7 +19,13 @@ export default class NewScriptForm extends React.Component {
     language: "",
     category: "",
     userid: localStorage.getItem("userid"),
-    open: false
+    open: false,
+    languageOptions: [
+      { key: "Ruby", text: "Ruby", value: "Ruby" },
+      { key: "Javascript", text: "Javascript", value: "Javascript" },
+      { key: "JSX", text: "JSX", value: "JSX" },
+      { key: "Python", text: "Python", value: "Python" }
+    ]
   };
 
   handleChange = event => {
@@ -52,16 +58,6 @@ export default class NewScriptForm extends React.Component {
       return <option value={category} />;
     });
   };
-
-  componentDidMount(){
-    this.setState({
-      languageOptions: [
-      { key: "Ruby", text: "Ruby", value: "Ruby" },
-      { key: "Javascript", text: "Javascript", value: "Javascript" },
-      { key: "JSX", text: "JSX", value: "JSX" },
-      { key: "Python", text: "Python", value: "Python" }
-    ]})
-  }
 
   render() {
     return (
@@ -103,7 +99,6 @@ export default class NewScriptForm extends React.Component {
           </Button>
         </Modal.Header>
         <Modal.Content
-          small
           scrolling
           style={{
             backgroundColor: "#262626"
@@ -127,13 +122,13 @@ export default class NewScriptForm extends React.Component {
                   placeholder="Select a programming language for your script"
                   name="language"
                   id="language"
-                  onChange={e =>{
-                  console.log(e.target.querySelector("span"))
+                  options={this.state.languageOptions}
+                  onChange={(e, { value }) => {
+                  console.log(value)
                     this.setState({
-                      language: e.target.querySelector("span").innerText
+                      language: value
                     })}
                   }
-                  options={this.state.languageOptions}
                 />
               </Form.Field>
 
