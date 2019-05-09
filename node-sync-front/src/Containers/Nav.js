@@ -89,6 +89,8 @@ export default class Nav extends React.Component {
           handleLanguages={this.props.handleLanguages}
           handleAllScripts={this.props.handleAllScripts}
           filtered ={this.props.filtered}
+          activeScriptUsers={this.props.activeScriptUsers}
+
         />
       </Container>
     );

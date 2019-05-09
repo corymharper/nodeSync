@@ -43,6 +43,8 @@ export default class NotesBox extends React.Component {
           filtered={this.props.filtered}
           setActiveScript={this.props.setActiveScript}
           activeScript={this.props.activeScript}
+          handleCollaborators = {this.props.handleCollaborators}
+          activeScriptUsers={this.props.activeScriptUsers}
         />
       </Container>
     );

@@ -103,27 +103,14 @@ export default class MenuSpace extends Component {
         <Menu.Item name="collaborators">
           Collaborators
           <Menu.Menu>
-            <Menu.Item
-              name="search"
-              active={activeItem === "search"}
-              onClick={this.handleItemClick}
-            >
-              Search
+
+          {this.props.activeScriptUsers.map(user => {
+            return (
+            <Menu.Item>
+              {user}
             </Menu.Item>
-            <Menu.Item
-              name="add"
-              active={activeItem === "add"}
-              onClick={this.handleItemClick}
-            >
-              Add
-            </Menu.Item>
-            <Menu.Item
-              name="about"
-              active={activeItem === "about"}
-              onClick={this.handleItemClick}
-            >
-              Remove
-            </Menu.Item>
+            )
+          })}
           </Menu.Menu>
         </Menu.Item>
         <Menu.Item

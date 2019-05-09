@@ -15,11 +15,24 @@ import EditScriptForm from "./EditScriptForm";
 export default class ScriptMenu extends Component {
   state = {
     activeItem: "home",
-    displayedScripts: []
+    displayedScripts: [],
+    collaborators: []
   };
 
-  handleItemClick = script => this.props.setActiveScript(script);
+  handleItemClick = script => {
+    this.props.setActiveScript(script);
+    this.props.handleCollaborators();
+  }
 
+  // getCollaborators = (script) => {
+  //     fetch(`http://localhost:3001/scripts/${script.id}/users`)
+  //     .then(resp => resp.json())
+  //     .then(users => {
+  //       let collaborators = users.map(user => user.username)
+  //       this.setState({collaborators: collaborators})
+  //     })
+  // }
+  
   static getDerivedStateFromProps(props, state) {
     return {
       displayedScripts:
@@ -97,7 +110,7 @@ export default class ScriptMenu extends Component {
                           // border: "solid 1px rgba(255, 255, 255, 0.08)"
                         }}
                       >
-                        +2
+                       +2 
                       </Label>
                     </ListItem>
                     <ListItem style={{ color: "#898989" }}>
