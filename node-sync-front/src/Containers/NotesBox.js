@@ -20,7 +20,7 @@ export default class NotesBox extends React.Component {
           left: `120px`,
           top: "0px",
           height: "100vh",
-          width: `160px`,
+          width: `230px`,
           backgroundColor: "#262626",
           borderRight: "solid black 1px",
           overflowY: "auto"

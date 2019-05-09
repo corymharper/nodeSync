@@ -217,7 +217,7 @@ export default class SignUpForm extends React.Component {
               }}
             >
               <Form size={"tiny"} key={"tiny"} onSubmit={this.handleSubmit}>
-                <Button onClick={this.props.hideMainBox} icon>
+                <Button type="button" onClick={this.props.hideMainBox} icon>
                   <Icon name="left chevron" />
                 </Button>
                 <br />
