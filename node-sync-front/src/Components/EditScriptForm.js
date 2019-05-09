@@ -86,7 +86,12 @@ export default class EditScriptForm extends React.Component {
         }
         open={this.state.open}
       >
-        <Modal.Header>
+        <Modal.Header
+          style={{
+            backgroundColor: "#1d1d1d",
+            color: "white"
+          }}
+        >
           Edit Script
           <Button
             onClick={() => this.setState({ open: false })}
@@ -96,9 +101,15 @@ export default class EditScriptForm extends React.Component {
             <Icon name="x" />
           </Button>
         </Modal.Header>
-        <Modal.Content small scrolling>
+        <Modal.Content
+          small
+          scrolling
+          style={{
+            backgroundColor: "#262626"
+          }}
+        >
           <Modal.Description>
-            <Form size={"small"} key={"small"}>
+            <Form size={"small"} key={"small"} inverted>
               <Form.Field>
                 <Form.Input
                   label="Title"

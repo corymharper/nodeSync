@@ -63,7 +63,7 @@ export default class WorkingBox extends React.Component {
         style={{
           resize: "both",
           position: "absolute",
-          left: `280px`,
+          left: `350px`,
           top: "0px",
           width: "100vw",
           height: "100vh",

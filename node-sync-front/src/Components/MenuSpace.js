@@ -11,38 +11,37 @@ export default class MenuSpace extends Component {
     localStorage.clear();
     this.props.hideMainBox();
   };
-  
-  handleAllScripts =(e, { name }) => {
+
+  handleAllScripts = (e, { name }) => {
     this.setState({ activeItem: name });
-    this.props.handleAllScripts(e,{name})
+    this.props.handleAllScripts(e, { name });
   };
 
-  handleCategories =(e, { name }) => {
+  handleCategories = (e, { name }) => {
     this.setState({ activeItem: name });
-    this.props.handleCategories(e,{name})
+    this.props.handleCategories(e, { name });
   };
 
-  handleLanguages =(e, { name }) => {
+  handleLanguages = (e, { name }) => {
     this.setState({ activeItem: name });
-    this.props.handleLanguages(e, {name})
+    this.props.handleLanguages(e, { name });
   };
 
   getUniqueCategories = () => {
-    let categories = this.props.scripts.map(script => script.category)
-    return categories.filter(function(item, pos){
-      return categories.indexOf(item) === pos
-    })
-  }
+    let categories = this.props.scripts.map(script => script.category);
+    return categories.filter(function(item, pos) {
+      return categories.indexOf(item) === pos;
+    });
+  };
 
   getUniqueLanguages = () => {
-    let languages = this.props.scripts.map(script => script.language)
-    return languages.filter(function (item, pos) {
-      return languages.indexOf(item) === pos
-    })
-  }
+    let languages = this.props.scripts.map(script => script.language);
+    return languages.filter(function(item, pos) {
+      return languages.indexOf(item) === pos;
+    });
+  };
 
   render() {
-
     const { activeItem } = this.state;
 
     return (
@@ -69,36 +68,35 @@ export default class MenuSpace extends Component {
         </Menu.Item>
         <Menu.Item name="categories">
           Categories
-        < Menu.Menu >
-          {this.getUniqueCategories().map(category => {
-            return (
-            <Menu.Item
-              name = {category}
-              active={activeItem === category}
-              onClick={this.handleCategories}
-            >
-              {category}
-            </Menu.Item>
-            )
-          })}
-         </Menu.Menu>
-
+          <Menu.Menu>
+            {this.getUniqueCategories().map(category => {
+              return (
+                <Menu.Item
+                  name={category}
+                  active={activeItem === category}
+                  onClick={this.handleCategories}
+                >
+                  {category}
+                </Menu.Item>
+              );
+            })}
+          </Menu.Menu>
         </Menu.Item>
         <Menu.Item name="languages">
           Languages
-        < Menu.Menu >
-          {this.getUniqueLanguages().map(language => {
-            return (
-            <Menu.Item
-              name = {language}
-              active={activeItem === language}
-              onClick={this.handleLanguages}
-            >
-              {language}
-            </Menu.Item>
-            )
-          })}
-         </Menu.Menu>
+          <Menu.Menu>
+            {this.getUniqueLanguages().map(language => {
+              return (
+                <Menu.Item
+                  name={language}
+                  active={activeItem === language}
+                  onClick={this.handleLanguages}
+                >
+                  {language}
+                </Menu.Item>
+              );
+            })}
+          </Menu.Menu>
         </Menu.Item>{" "}
         <Menu.Item name="collaborators">
           Collaborators
@@ -113,16 +111,15 @@ export default class MenuSpace extends Component {
           })}
           </Menu.Menu>
         </Menu.Item>
-        <Menu.Item
+        {/* <Menu.Item
           active={activeItem === "settings"}
           onClick={this.handleItemClick}
         >
           Settings
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item active={activeItem === "logout"} onClick={this.handleLogOut}>
           Log Out
         </Menu.Item>
-      
       </Menu>
     );
   }

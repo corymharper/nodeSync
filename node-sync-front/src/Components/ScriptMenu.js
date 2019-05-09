@@ -74,7 +74,7 @@ export default class ScriptMenu extends Component {
                   }}
                 >
                   <List style={{ width: "100%" }}>
-                    <ListItem>
+                    {/* <ListItem>
                       <Label
                         style={{
                           position: "relative",
@@ -103,7 +103,7 @@ export default class ScriptMenu extends Component {
                       >
                        +2 
                       </Label>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem style={{ color: "#898989" }}>
                       <h5>
                         {moment(script.createdAt)
@@ -127,7 +127,7 @@ export default class ScriptMenu extends Component {
                       color: "rgba(255,255,255,.85)",
                       marginBottom: "7px",
                       width: "100%",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis"
