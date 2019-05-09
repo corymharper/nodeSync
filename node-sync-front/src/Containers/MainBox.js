@@ -16,7 +16,8 @@ export default class MainBox extends React.Component {
     scripts: [],
     users: [],
     activeScript: null,
-    filtered: []
+    filtered: [],
+    activeScriptUsers: []
   };
 
   componentDidMount() {
@@ -128,6 +129,17 @@ export default class MainBox extends React.Component {
     //add methods to show all scripts in NotesBox->ScriptMenu
     this.setState({ filtered: this.state.scripts})
   }
+
+  handleCollaborators = () => {
+     fetch(`http://localhost:3001/scripts/${this.state.activeScript.id}/users`)
+      .then(resp => resp.json())
+      .then(users => {
+        let collaborators = users.map(user => user.username)
+        let selfIndex = collaborators.indexOf(localStorage.getItem('username'))
+        collaborators[selfIndex] = "Owner: Me"
+        this.setState({activeScriptUsers: collaborators})
+      })
+  }
     
   saveLocalActiveScriptContent = newContent => {
     console.log("test 1");
@@ -157,8 +169,8 @@ export default class MainBox extends React.Component {
           handleCategories ={this.handleCategories} 
           handleLanguages={this.handleLanguages}
           handleAllScripts={this.handleAllScripts}
-          handleSearchChange={this.handleSearchChange}
           filtered ={this.state.filtered}
+          activeScriptUsers={this.state.activeScriptUsers}
         />
         <NotesBox
           scripts={this.state.scripts}
@@ -167,6 +179,8 @@ export default class MainBox extends React.Component {
           setActiveScript={this.setActiveScript}
           filtered={this.state.filtered}
           activeScript={this.state.activeScript}
+          handleCollaborators={this.handleCollaborators}
+          activeScriptUsers={this.state.activeScriptUsers}
         />
         <WorkingBox
           users={this.state.users}

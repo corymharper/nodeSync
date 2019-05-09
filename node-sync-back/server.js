@@ -185,7 +185,6 @@ app.get("/scripts/:id", (req, res) => {
 });
 
 app.post("/scripts", (req, res) => {
-  //TO BE TESTED.
   //create new script
   let newScript = Script.build();
   //set up properties
@@ -210,6 +209,7 @@ app.post("/scripts", (req, res) => {
 app.patch("/scripts/:id", async (req, res) => {
   let script = await Script.findByPk(req.params.id);
   script.update(req.body);
+  
 });
 
 app.delete("/scripts/:id", async (req, res) => {
