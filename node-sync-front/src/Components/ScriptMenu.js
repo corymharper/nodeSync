@@ -9,28 +9,44 @@ import {
   Modal
 } from "semantic-ui-react";
 import Moment from "react-moment";
+import moment from "moment";
 import EditScriptForm from "./EditScriptForm";
 
 export default class ScriptMenu extends Component {
   state = {
-    activeItem: "home"
+    activeItem: "home",
+    displayedScripts: [],
+    collaborators: []
   };
 
   handleItemClick = script => {
-    this.setState({ activeItem: script.title });
     this.props.setActiveScript(script);
-  };
+    this.props.handleCollaborators();
+  }
 
-  // displayCode = (e, { name }) => {
-  //   this.setState({ activeItem: name });
-  //   //communicate with workingBox, show script.content inside workingbox
-  //   //render workingbox, set code value as script.content
+  // getCollaborators = (script) => {
+  //     fetch(`http://localhost:3001/scripts/${script.id}/users`)
+  //     .then(resp => resp.json())
+  //     .then(users => {
+  //       let collaborators = users.map(user => user.username)
+  //       this.setState({collaborators: collaborators})
+  //     })
   // }
+  
+  static getDerivedStateFromProps(props, state) {
+    return {
+      displayedScripts:
+        props.filtered.length === 0 ? props.scripts : props.filtered
+    };
+  }
 
   render() {
-    const { activeItem } = this.state;
+    const activeItem = this.props.activeScript
+      ? this.props.activeScript.id
+      : null;
     console.log(this.props.scripts);
-    console.log(this.state.reverseScripts);
+
+    let moment = require("moment-shortformat");
 
     return (
       <Menu
@@ -43,7 +59,7 @@ export default class ScriptMenu extends Component {
           margin: "0px"
         }}
       >
-        {this.props.scripts
+        {this.state.displayedScripts
           .slice()
           .reverse()
           .map(script => {
@@ -51,37 +67,11 @@ export default class ScriptMenu extends Component {
               <Menu.Item
                 id={script.id}
                 name={script.title}
-                active={activeItem === script.title}
+                active={activeItem === script.id}
                 onClick={() => this.handleItemClick(script)}
               >
-                <Modal
-                  trigger={
-                    <Icon
-                      style={{
-                        position: "absolute",
-                        top: "10%",
-                        right: "0%",
-                        color: "#898989"
-                      }}
-                      name="ellipsis vertical"
-                    />
-                  }
-                  blurring
-                >
-                  <Modal.Header>Edit Script</Modal.Header>
-                  <Modal.Content scrolling>
-                    <Modal.Description>
-                      <EditScriptForm
-                        updateMainBox={this.props.updateMainBox}
-                      />
-                    </Modal.Description>
-                  </Modal.Content>
-                  {/* <Modal.Actions>
-              <Button primary>
-                Proceed <Icon name="chevron right" />
-              </Button>
-            </Modal.Actions> */}
-                </Modal>
+                <EditScriptForm scripts={this.props.scripts} script={script} />
+
                 <div
                   style={{
                     position: "absolute",
@@ -93,7 +83,7 @@ export default class ScriptMenu extends Component {
                   }}
                 >
                   <List style={{ width: "100%" }}>
-                    <ListItem>
+                    {/* <ListItem>
                       <Label
                         style={{
                           position: "relative",
@@ -120,14 +110,14 @@ export default class ScriptMenu extends Component {
                           // border: "solid 1px rgba(255, 255, 255, 0.08)"
                         }}
                       >
-                        +2
+                       +2 
                       </Label>
-                    </ListItem>
+                    </ListItem> */}
                     <ListItem style={{ color: "#898989" }}>
                       <h5>
-                        <Moment fromNow ago>
-                          {script.createdAt}
-                        </Moment>
+                        {moment(script.createdAt)
+                          .short()
+                          .replace("ago", "")}
                       </h5>
                     </ListItem>
                   </List>
@@ -146,7 +136,7 @@ export default class ScriptMenu extends Component {
                       color: "rgba(255,255,255,.85)",
                       marginBottom: "7px",
                       width: "100%",
-                      fontSize: "12px",
+                      fontSize: "13px",
                       whiteSpace: "nowrap",
                       overflow: "hidden",
                       textOverflow: "ellipsis"

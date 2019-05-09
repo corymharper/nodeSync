@@ -10,9 +10,10 @@ import {
   Dropdown
 } from "semantic-ui-react";
 import MenuSpace from "../Components/MenuSpace";
-import Typist from 'react-typist';
+import Typist from "react-typist";
 import "react-typist/dist/Typist.css";
 export default class Nav extends React.Component {
+
   render() {
     return (
       <Container
@@ -55,7 +56,14 @@ export default class Nav extends React.Component {
               fontWeight: "bold"
             }}
           >
-            < Typist className = "MyTypist" avgTypingDelay={70} avgTypingSpeed={40} startDelay={2000}>NodeSync< /Typist >
+            <Typist
+              className="MyTypist"
+              avgTypingDelay={70}
+              avgTypingSpeed={40}
+              startDelay={2000}
+            >
+              nodeSync
+            </Typist>
           </div>
           {/* <Button
             style={{
@@ -74,7 +82,16 @@ export default class Nav extends React.Component {
             <Icon name="setting" />
           </Button> */}
         </div>
-        <MenuSpace hideMainBox={this.props.hideMainBox} />
+        <MenuSpace 
+          hideMainBox={this.props.hideMainBox} 
+          scripts = {this.props.scripts} 
+          handleCategories={this.props.handleCategories} 
+          handleLanguages={this.props.handleLanguages}
+          handleAllScripts={this.props.handleAllScripts}
+          filtered ={this.props.filtered}
+          activeScriptUsers={this.props.activeScriptUsers}
+
+        />
       </Container>
     );
   }

@@ -8,7 +8,7 @@ import {
   Header,
   Icon
 } from "semantic-ui-react";
-import Typist from 'react-typist';
+import Typist from "react-typist";
 import "react-typist/dist/Typist.css";
 export default class SignUpForm extends React.Component {
   state = {
@@ -107,7 +107,22 @@ export default class SignUpForm extends React.Component {
         localStorage.setItem("token", user.token);
         console.log(localStorage);
         this.props.renderMainBox();
-      });
+      })
+      .then(() =>
+        fetch("http://localhost:3001/scripts/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            //sending this.state
+            title: "Default Script",
+            language: "",
+            category: "",
+            userid: localStorage.getItem("userid")
+          })
+        })
+      );
   };
 
   render() {
@@ -165,7 +180,15 @@ export default class SignUpForm extends React.Component {
                 icon
               >
                 <Icon name="sync alternate" />
-                < Typist className = "MyTypist" avgTypingDelay={70} avgTypingSpeed={40} startDelay={2000}>NodeSync< /Typist >
+                {/* <Typist
+                  className="MyTypist"
+                  // avgTypingDelay={70}
+                  // avgTypingSpeed={40}
+                  // startDelay={20}
+                  cursor={{ show: true }}
+                > */}
+                nodeSync|
+                {/* </Typist> */}
                 <Header.Subheader
                   style={{ color: "#8c8c8c", fontSize: "14px" }}
                 >
@@ -194,6 +217,11 @@ export default class SignUpForm extends React.Component {
               }}
             >
               <Form size={"tiny"} key={"tiny"} onSubmit={this.handleSubmit}>
+                <Button type="button" onClick={this.props.hideMainBox} icon>
+                  <Icon name="left chevron" />
+                </Button>
+                <br />
+                <br />
                 <Form.Field>
                   <Form.Input
                     label="Username"
@@ -246,6 +274,7 @@ export default class SignUpForm extends React.Component {
                     id="confirmPassword"
                   />
                 </Form.Field>
+
                 <Button type="submit">
                   Register <Icon name="right chevron" />
                 </Button>

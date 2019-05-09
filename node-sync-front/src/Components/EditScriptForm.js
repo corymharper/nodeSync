@@ -10,14 +10,15 @@ import {
   Select,
   Modal
 } from "semantic-ui-react";
+import SocketHandler from "../SocketHandler";
 // import { getEnabledCategories } from "trace_events";
 
 export default class EditScriptForm extends React.Component {
-  
   state = {
-    title: "",
-    language: "",
-    category: ""
+    title: this.props.script.title,
+    language: this.props.script.language,
+    category: this.props.script.category,
+    open: false
   };
 
   handleChange = event => {
@@ -27,39 +28,24 @@ export default class EditScriptForm extends React.Component {
   };
 
   handleSubmit = () => {
-    this.fetchData();
-    this.props.updateMainBox();
+    this.emitData();
+    this.setState({ open: false });
   };
 
-  fetchData = () => {
-    //fetch url to be fixed
-    //this component's props do not include scripts
-    fetch(`${process.env.REACT_APP_FETCH_URL}/scripts/${this.props.script.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        //sending this.state
-        title: this.state.title,
-        language: this.state.language,
-        category: this.state.category
-      })
+  emitData = () => {
+    SocketHandler.emit("script.edit", {
+      id: this.props.script.id,
+      title: this.state.title,
+      language: this.state.language,
+      category: this.state.category
     });
   };
 
   deleteScript = () => {
-    //fetch url to be fixed
-    fetch(`${process.env.REACT_APP_FETCH_URL}/scripts/${this.props.script.id}`, {
-      method: "DELETE"
-      // headers: {
-      //   "Content-Type": "application/json"
-      // },
-      // body: JSON.stringify({
-      //   title: this.state.title,
-      //   language: this.state.language,
-      //   category: this.state.category
-      // })
+    this.setState({ open: false });
+    SocketHandler.emit("script.delete", {
+      script_id: this.props.script.id,
+      user_id: localStorage.getItem("userid")
     });
   };
 
@@ -85,66 +71,126 @@ export default class EditScriptForm extends React.Component {
 
   render() {
     return (
-      <Form size={"small"} key={"small"}>
-        <Form.Field>
-          <Form.Input
-            label="Title"
-            placeholder="Enter a title for your script"
-            name="title"
-            onChange={this.handleChange}
-            id="title"
+      <Modal
+        trigger={
+          <Icon
+            style={{
+              position: "absolute",
+              top: "10%",
+              right: "0%",
+              color: "#898989"
+            }}
+            name="ellipsis vertical"
+            onClick={() => this.setState({ open: true })}
           />
-        </Form.Field>
-
-        <Form.Field>
-          <Form.Select
-            label="Language"
-            placeholder="Select a programming language for your script"
-            name="language"
-            id="language"
-            onChange={this.handleChange}
-            options={this.languageOptions()}
-          />
-        </Form.Field>
-
-        {/* <Form.Field>
-          <Form.Input
-            label="Category"
-            list="categories"
-            placeholder="Enter or select an existing category describing your script"
-            name="category"
-            id="category"
-            onChange={this.handleChange}
-          />
-          <datalist id="categories">{this.categoryOptions()}</datalist>
-        </Form.Field> */}
-
-        <Button type="submit" positive onClick={this.handleSubmit}>
-          Confirm Edits <Icon name="checkmark" />
-        </Button>
-
-        <Modal
-          trigger={
-            <Button negative>
-              Delete Script <Icon name="x" />
-            </Button>
-          }
-          basic
-          size="small"
+        }
+        open={this.state.open}
+      >
+        <Modal.Header
+          style={{
+            backgroundColor: "#1d1d1d",
+            color: "white"
+          }}
         >
-          <Modal.Content>
-            <p>
-              Are you sure that you want to delete this script? Click outside
-              this message to dismiss.
-            </p>
-          </Modal.Content>
-          <Modal.Actions>
-            <Button color="red" inverted onClick={this.deleteScript}>
-              <Icon name="remove" /> Delete Script
-            </Button>
-          </Modal.Actions>
-        </Modal>
-      </Form>
+          Edit Script
+          <Button
+            onClick={() => this.setState({ open: false })}
+            style={{ position: "absolute", right: "3%" }}
+            icon
+          >
+            <Icon name="x" />
+          </Button>
+        </Modal.Header>
+        <Modal.Content
+          small
+          scrolling
+          style={{
+            backgroundColor: "#262626"
+          }}
+        >
+          <Modal.Description>
+            <Form size={"small"} key={"small"} inverted>
+              <Form.Field>
+                <Form.Input
+                  label="Title"
+                  placeholder={
+                    this.state.title
+                      ? this.state.title
+                      : "Enter a title for your script"
+                  }
+                  name="title"
+                  onChange={this.handleChange}
+                  id="title"
+                />
+              </Form.Field>
+
+              <Form.Field>
+                <Form.Select
+                  label="Language"
+                  placeholder={
+                    this.state.language
+                      ? this.state.language
+                      : "Select a programming language for your script"
+                  }
+                  name="language"
+                  id="language"
+                  onChange={e =>
+                    this.setState({
+                      language: e.target.querySelector("span").innerText
+                    })
+                  }
+                  options={this.languageOptions()}
+                />
+              </Form.Field>
+
+              <Form.Field>
+                <Form.Input
+                  label="Category"
+                  list="categories"
+                  placeholder={
+                    this.state.category
+                      ? this.state.category
+                      : "Enter or select an existing category describing your script"
+                  }
+                  name="category"
+                  id="category"
+                  onChange={this.handleChange}
+                />
+                <datalist id="categories">{this.categoryOptions()}</datalist>
+              </Form.Field>
+
+              <Button type="submit" positive onClick={this.handleSubmit}>
+                Confirm Edits <Icon name="checkmark" />
+              </Button>
+
+              <Modal
+                trigger={
+                  <Button negative>
+                    Delete Script <Icon name="x" />
+                  </Button>
+                }
+                basic
+                size="small"
+                closeIcon
+              >
+                <Modal.Content>
+                  <p>Are you sure that you want to delete this script?</p>
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button color="red" inverted onClick={this.deleteScript}>
+                    <Icon name="remove" /> Delete Script
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            </Form>
+          </Modal.Description>
+        </Modal.Content>
+        {/* <Modal.Actions>
+              <Button primary>
+                Proceed <Icon name="chevron right" />
+              </Button>
+            </Modal.Actions> */}
+      </Modal>
     );
   }
 }

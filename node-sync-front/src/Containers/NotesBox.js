@@ -13,7 +13,6 @@ import NewScriptForm from "../Components/NewScriptForm";
 
 export default class NotesBox extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <Container
         style={{
@@ -21,7 +20,7 @@ export default class NotesBox extends React.Component {
           left: `120px`,
           top: "0px",
           height: "100vh",
-          width: `160px`,
+          width: `230px`,
           backgroundColor: "#262626",
           borderRight: "solid black 1px",
           overflowY: "auto"
@@ -36,47 +35,16 @@ export default class NotesBox extends React.Component {
             borderBottom: "solid black 1px"
           }}
         >
-          <Modal
-            trigger={
-              <Button
-                style={{
-                  position: "absolute",
-                  top: "20%",
-                  bottom: "20%",
-                  right: "7px",
-                  padding: "5px",
-                  width: "30px",
-                  height: "30px",
-                  margin: "0px",
-                  backgroundColor: "#898989"
-                }}
-                icon
-              >
-                <Icon name="edit" />
-              </Button>
-            }
-            blurring
-          >
-            <Modal.Header>Create a New Script</Modal.Header>
-            <Modal.Content scrolling>
-              <Modal.Description>
-                <NewScriptForm />
-              </Modal.Description>
-            </Modal.Content>
-            {/* <Modal.Actions>
-              <Button primary>
-                Proceed <Icon name="chevron right" />
-              </Button>
-            </Modal.Actions> */}
-          </Modal>
+          <NewScriptForm scripts={this.props.scripts} />
         </div>
-        {/* {this.props.scripts.map(script => {
-          return <Preview {...script} />;
-        })} */}
         <ScriptMenu
           scripts={this.props.scripts}
           updateMainBox={this.props.updateMainBox}
+          filtered={this.props.filtered}
           setActiveScript={this.props.setActiveScript}
+          activeScript={this.props.activeScript}
+          handleCollaborators = {this.props.handleCollaborators}
+          activeScriptUsers={this.props.activeScriptUsers}
         />
       </Container>
     );

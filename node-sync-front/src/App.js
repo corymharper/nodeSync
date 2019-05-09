@@ -23,7 +23,7 @@ export default class App extends React.Component {
   };
 
   hideMainBox = () => {
-    this.setState({ mainbox: false });
+    this.setState({ mainbox: false, signup: false });
   };
 
   conditionalRender() {
@@ -36,7 +36,12 @@ export default class App extends React.Component {
           />
         );
       } else {
-        return <SignUpForm renderMainBox={this.renderMainBox} />;
+        return (
+          <SignUpForm
+            renderMainBox={this.renderMainBox}
+            hideMainBox={this.hideMainBox}
+          />
+        );
       }
     } else {
       return <MainBox hideMainBox={this.hideMainBox} />;
